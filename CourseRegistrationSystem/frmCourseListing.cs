@@ -14,17 +14,17 @@ namespace CourseRegistrationSystem
     public partial class frmCourseListing : Form
     {
         // Fields
-        private readonly List<Course> courseList;
-        private List<Course> currentList;
+        private readonly List<string> defaultCodeList;
+        private List<string> currentList;
         readonly Panel detailPanel;
         private int page, maxPages;
 
         // Constructor
-        public frmCourseListing(List<Course> courseList, ComboBox.ObjectCollection departmentList)
+        public frmCourseListing(ComboBox.ObjectCollection departmentList)
         {
             InitializeComponent();
-            this.courseList = courseList;
-            this.currentList = courseList;
+            defaultCodeList = Course.CourseList.Keys.ToList();
+            currentList = defaultCodeList;
             datGrdVwCourses.RowTemplate.Height = 40;
             foreach (string department  in departmentList)
             {
@@ -60,7 +60,7 @@ namespace CourseRegistrationSystem
                 if (index > currentList.Count - 1) { break; }
 
                 // Add course to data grid
-                Course course = currentList[index];
+                Course course = Course.CourseList[currentList[index]];
                 string[] courseInfo = { course.Code, course.Title, course.TimeString(),
                 course.CapacityString(), course.Professor};
 
@@ -137,15 +137,7 @@ namespace CourseRegistrationSystem
                 // Get details for selected course
                 DataGridViewRow selectedItem = datGrdVwCourses.SelectedRows[0];
                 string selectedCode = selectedItem.Cells[0].Value.ToString();
-                Course selectedCourse = null;
-                foreach (Course course in currentList)
-                {
-                    if (course.Code == selectedCode)
-                    {
-                        selectedCourse = course;
-                        break;
-                    }
-                }
+                Course selectedCourse = Course.CourseList[selectedCode];
 
                 // PANEL IS 400x370
 
@@ -174,7 +166,7 @@ namespace CourseRegistrationSystem
                 };
                 ModifyDetailLabel(lblDescription);
 
-                Panel meetingTimes = new MeetingTimes(selectedCourse.Days, selectedCourse.TimeString(), selectedCourse.Code)
+                Panel meetingTimes = new MeetingTimes(selectedCourse.Days, selectedCourse.TimeString(), null)
                 {
                     Location = new Point(10, 190),
                     BorderStyle = BorderStyle.FixedSingle
@@ -259,14 +251,15 @@ namespace CourseRegistrationSystem
             btnPrev.Enabled = false;
             ComboBox cmb = (ComboBox)sender;
             // if filter selection is reset, display entire list
-            if (cmb.SelectedIndex == -1) { currentList = courseList; Console.WriteLine("why"); }
+            if (cmb.SelectedIndex == -1) { currentList = defaultCodeList; }
             // else display filtered list
             else
             { 
-                List<Course> filteredCourseList = new List<Course>();
-                foreach (Course c in courseList)
+                List<string> filteredCourseList = new List<string>();
+                foreach (string courseCode in defaultCodeList)
                 {
-                    if (c.Department == (string)cmb.SelectedItem) { filteredCourseList.Add(c); }
+                    Course course = Course.CourseList[courseCode];
+                    if (course.Department == (string)cmb.SelectedItem) { filteredCourseList.Add(courseCode); }
                 }
                 currentList = filteredCourseList;
             }

@@ -14,15 +14,10 @@ namespace CourseRegistrationSystem
 {
     public partial class frmMain : Form
     {
-        // Fields
-        private List<Course> courseList;
-
         // Constructor
         public frmMain()
         {
             InitializeComponent();
-            courseList = new List<Course>();
-
             List<string> courseData = new List<string>();
             try
             {
@@ -75,7 +70,7 @@ namespace CourseRegistrationSystem
                 if (dayString[i] == 'T') { course.Days[i] = true; }
                 else if (dayString[i] == 'F') { course.Days[i] = false; }
             }
-            courseList.Add(course);
+            Course.CourseList[course.Code] = course;
         }
 
         // Events
@@ -85,16 +80,14 @@ namespace CourseRegistrationSystem
             lblStatus.Visible = false;
 
             // if course code is already in list, then return (dont submit)
-            foreach (Course c in courseList)
+            if (Course.CourseList.ContainsKey(txtCode.Text)) 
             {
-                if (txtCode.Text == c.Code) 
-                {
-                    lblStatus.Visible = true;
-                    lblStatus.Text = "Error: Course with this code already exists in list.";
-                    lblStatus.ForeColor = Color.Red;
-                    return; 
-                }
+                lblStatus.Visible = true;
+                lblStatus.Text = "Error: Course with this code already exists in list.";
+                lblStatus.ForeColor = Color.Red;
+                return; 
             }
+            
 
             // Input validation
 
@@ -168,7 +161,7 @@ namespace CourseRegistrationSystem
                     if (chk.Checked) { course.Days[i] = true; }
                     i++;
                 }
-                courseList.Add(course);
+                Course.CourseList[course.Code] = course;
                 lblStatus.Visible = true;
                 lblStatus.Text = "Course submitted successfully.";
                 lblStatus.ForeColor = Color.Green;
@@ -178,7 +171,7 @@ namespace CourseRegistrationSystem
 
         private void btnViewList_Click(object sender, EventArgs e)
         {
-            frmCourseListing newCourseList = new frmCourseListing(courseList, comboDepartment.Items);
+            frmCourseListing newCourseList = new frmCourseListing(comboDepartment.Items);
             newCourseList.ShowDialog();
         }
 

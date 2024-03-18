@@ -38,7 +38,10 @@ namespace CourseRegistrationSystem
                 Location = new Point(105, 15)
             };
             Controls.Add (lblTime);
-            meetingTimesList[courseCode] = this;
+            if (courseCode != null)
+            {
+                meetingTimesList[courseCode] = this;
+            }
         }
         
         public static Dictionary<string, MeetingTimes> MeetingTimesList {  get { return meetingTimesList; } }

@@ -9,6 +9,7 @@ namespace CourseRegistrationSystem
     public class Course
     {
         // Fields
+        private readonly static Dictionary<string, Course> courseList = new Dictionary<string, Course>();
         private string department;
         private string code;
         private string title;
@@ -30,20 +31,8 @@ namespace CourseRegistrationSystem
             days = new[]{false, false, false, false, false};
         }
 
-        // == and != Operators
-        /*
-        public static bool operator ==(Course left, Course right)
-        {
-            if (left.Code == right.Code) { return true; } return false;
-        }
-        public static bool operator !=(Course left, Course right)
-        {
-            if (left.Code != right.Code) { return true; }
-            return false;
-        }
-        */
-
         // Properties
+        public static Dictionary<string, Course> CourseList { get { return courseList; } }
         public string Department
         {
             get { return department; }
