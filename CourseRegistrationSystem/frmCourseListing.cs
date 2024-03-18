@@ -16,7 +16,7 @@ namespace CourseRegistrationSystem
         // Fields
         private readonly List<Course> courseList;
         private List<Course> currentList;
-        Panel courseDisplay;
+        readonly Panel detailPanel;
         private int page, maxPages;
 
         // Constructor
@@ -33,7 +33,7 @@ namespace CourseRegistrationSystem
             page = 0;
             maxPages = 0;
             // Create panel for course details
-            courseDisplay = new Panel
+            detailPanel = new Panel
             {
                 Size = new Size(400, 370),
                 Location = new Point(350, 30),//(312, 13),
@@ -41,23 +41,23 @@ namespace CourseRegistrationSystem
                 BorderStyle = BorderStyle.FixedSingle,
                 Visible = false
             };
-            Controls.Add(courseDisplay);
+            Controls.Add(detailPanel);
 
-            // Add all course data to listview
+            // Add all course data to datagrid
             PopulateDataGrid();
+            if (maxPages > 0) { btnNext.Enabled = true; }
         }
         // Methods
         private void PopulateDataGrid()
         {
             maxPages = currentList.Count / 10;
-            if (maxPages > 0) { btnNext.Enabled = true; }
 
             int meetingTimeLabelHeightPositionModifier = 0;
             for (int i = 0; i < 10; i++)
             {
                 int index = i + page * 10;
                 // If index reaches out of bounds stop adding to data grid
-                if (index > currentList.Count - 1) { return; }
+                if (index > currentList.Count - 1) { break; }
 
                 // Add course to data grid
                 Course course = currentList[index];
@@ -67,25 +67,21 @@ namespace CourseRegistrationSystem
                 // Datagridview implementation
                 datGrdVwCourses.Rows.Add(courseInfo);
 
-                Panel meetingTimes = new MeetingTimes(course.Days, course.TimeString())
-                {
-                    //Location = new Point(314, 40 * i + 34)
-                    Location = new Point(302, 40 * meetingTimeLabelHeightPositionModifier + 22)
-                };
+                Panel meetingTimes = GetMeetingPanel(course, new Point(302, 40 * meetingTimeLabelHeightPositionModifier + 22));
                 datGrdVwCourses.Controls.Add(meetingTimes);
                 meetingTimeLabelHeightPositionModifier++;
             }
-            datGrdVwCourses.ClearSelection();
-            datGrdVwCourses.Update();
+            CloseDetailPanel();
+
         }
         private void CloseDetailPanel()
         {
-            if (courseDisplay != null)
+            if (detailPanel != null)
             {
-                courseDisplay.Controls.Clear();
+                detailPanel.Controls.Clear();
+                datGrdVwCourses.ClearSelection();
+                detailPanel.Visible = false;
             }
-            datGrdVwCourses.ClearSelection();
-            courseDisplay.Visible = false;
         }
         private void ModifyDetailLabel(Label lbl)
         {
@@ -98,111 +94,40 @@ namespace CourseRegistrationSystem
             datGrdVwCourses.Rows.Clear();
             foreach(var control in datGrdVwCourses.Controls)
             {
-                if (control is MeetingTimes)
+                if (control is MeetingTimes times)
                 {
-                    datGrdVwCourses.Controls.Remove((MeetingTimes)control);
+                    times.Visible = false;
                 }
             }
-            //datGrdVwCourses.Controls.Clear();
             CloseDetailPanel();
+        }
+        // Datagrid can access static list of all existing course MeetingTime panels
+        private MeetingTimes GetMeetingPanel(Course course, Point location)
+        {
+            MeetingTimes meetingTimes;
+            if (MeetingTimes.MeetingTimesList.ContainsKey(course.Code))
+            {
+                meetingTimes = MeetingTimes.MeetingTimesList[course.Code];
+                meetingTimes.Location = location;
+            }
+            else
+            {
+                meetingTimes = new MeetingTimes(course.Days, course.TimeString(), course.Code)
+                {
+                    Location = location
+                };
+            }
+            meetingTimes.Visible = true;
+            return meetingTimes;
         }
 
         // Events
-        private void listViewCourses_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            /* Selecting a course code opens a details panel */
-            if (listViewCourses.SelectedItems.Count != 0)
-            {
-                // Create panel for selected course details
-                courseDisplay = new FlowLayoutPanel
-                {
-                    Size = new Size(400, 300),
-                    Location = new Point(300, 50),
-                    BackColor = Color.White,
-                    BorderStyle = BorderStyle.Fixed3D
-                };
-                // Get details for selected course
-                ListViewItem selectedItem = listViewCourses.SelectedItems[0];
-                string selectedCode = selectedItem.SubItems[0].Text;
-                Course selectedCourse = null;
-                foreach (Course course in courseList)
-                {
-                    if (course.Code == selectedCode)
-                    {
-                        selectedCourse = course;
-                        break;
-                    }
-                }
-
-                // All controls for details within details panel
-                Label lblCode = new Label
-                {
-                    Text = selectedCourse.Code,
-                    Size = new Size(100, 20),
-                };
-                Label lblTitle = new Label
-                {
-                    Text = selectedCourse.Title,
-                    Size = new Size(200, 20),
-                };
-                Label lblDescription = new Label
-                {
-                    Text = selectedCourse.Description,
-                    Size = new Size(400, 40),
-                };
-
-                Panel meetingTimes = new MeetingTimes(selectedCourse.Days, selectedCourse.TimeString());
-
-                Label lblProfessor = new Label
-                {
-                    Text = selectedCourse.Professor,
-                    Size = new Size(100, 20),
-                };
-                PictureBox picProfImg = new PictureBox
-                {
-                    Size = new Size(100, 100),
-                    SizeMode = PictureBoxSizeMode.StretchImage
-                };
-                //picProfImgUrl.Load(selectedCourse.ProfessorImgUrl);
-                string tempurl = "https://i.kym-cdn.com/entries/icons/original/000/027/475/Screen_Shot_2018-10-25_at_11.02.15_AM.png";
-                picProfImg.Load(tempurl);
-                
-                Label lblCapacity = new Label
-                {
-                    Text = selectedCourse.CapacityString(),
-                    Size = new Size(100, 20),
-                };
-                Label lblCredits = new Label
-                {
-                    Text = selectedCourse.Credits,
-                    Size = new Size(100, 20),
-                };
-
-                // Add all controls to form
-                this.Controls.Add(courseDisplay);
-                courseDisplay.BringToFront();
-
-                courseDisplay.Controls.Add(lblCode);
-                courseDisplay.Controls.Add(lblTitle);
-                courseDisplay.Controls.Add(lblDescription);
-                //courseDisplay.Controls.Add(lblDays);
-                //courseDisplay.Controls.Add(lblTime);
-                courseDisplay.Controls.Add(meetingTimes);
-                courseDisplay.Controls.Add(lblProfessor);
-                courseDisplay.Controls.Add(picProfImg);
-                courseDisplay.Controls.Add(lblCapacity);
-                courseDisplay.Controls.Add(lblCredits);
-
-            }
-        }
-
         // Need this to clear selected row when launching courselist view and detail panel
         private void frmCourseListing_Load(object sender, EventArgs e)
         {
             datGrdVwCourses.ClearSelection();
-            if (courseDisplay != null) { courseDisplay.Visible = false; }
+            if (detailPanel != null) { detailPanel.Visible = false; }
         }
-
         // Event for when rows are selected/deselected - Displays Course Details Panel
         private void datGrdVwCourses_RowStateChanged(object sender, DataGridViewRowStateChangedEventArgs e)
         {
@@ -249,10 +174,10 @@ namespace CourseRegistrationSystem
                 };
                 ModifyDetailLabel(lblDescription);
 
-                Panel meetingTimes = new MeetingTimes(selectedCourse.Days, selectedCourse.TimeString())
+                Panel meetingTimes = new MeetingTimes(selectedCourse.Days, selectedCourse.TimeString(), selectedCourse.Code)
                 {
-                    BorderStyle = BorderStyle.FixedSingle,
-                    Location = new Point(10, 190)
+                    Location = new Point(10, 190),
+                    BorderStyle = BorderStyle.FixedSingle
                 };
 
                 Label lblProfessor = new Label
@@ -272,7 +197,7 @@ namespace CourseRegistrationSystem
                     BackColor = Color.White
                 };
                 try { picProfImg.Load(selectedCourse.ProfessorImgUrl); }
-                catch { }
+                catch (Exception ex) { Console.WriteLine("Image could not be loaded. " + ex.Message); }
                 
 
                 Label lblCapacity = new Label
@@ -302,38 +227,39 @@ namespace CourseRegistrationSystem
 
 
                 // Add all controls to panel
-                courseDisplay.Controls.Add(lblCode);
-                courseDisplay.Controls.Add(lblTitle);
-                courseDisplay.Controls.Add(lblDescription);
-                courseDisplay.Controls.Add(meetingTimes);
-                courseDisplay.Controls.Add(lblProfessor);
-                courseDisplay.Controls.Add(picProfImg);
-                courseDisplay.Controls.Add(lblCapacity);
-                courseDisplay.Controls.Add(lblCredits);
+                detailPanel.Controls.Add(lblCode);
+                detailPanel.Controls.Add(lblTitle);
+                detailPanel.Controls.Add(lblDescription);
+                detailPanel.Controls.Add(meetingTimes);
+                detailPanel.Controls.Add(lblProfessor);
+                detailPanel.Controls.Add(picProfImg);
+                detailPanel.Controls.Add(lblCapacity);
+                detailPanel.Controls.Add(lblCredits);
 
-                courseDisplay.Controls.Add(btnClose);
+                detailPanel.Controls.Add(btnClose);
 
-                // Make course panel visible
-                courseDisplay.Visible = true;
-                courseDisplay.BringToFront();
+                // Make course detail panel visible
+                detailPanel.Visible = true;
+                detailPanel.BringToFront();
             }
+
             else
             {
                 // Close details for deselected course
                 CloseDetailPanel();
             }
         }
-
         private void btnClose_Click(object sender, EventArgs e)
         {
             CloseDetailPanel();
         }
-
         private void cmbFilter_SelectedIndexChanged(object sender, EventArgs e)
         {
+            page = 0;
+            btnPrev.Enabled = false;
             ComboBox cmb = (ComboBox)sender;
             // if filter selection is reset, display entire list
-            if (cmb.SelectedIndex == -1) { currentList = courseList; page = 0; }
+            if (cmb.SelectedIndex == -1) { currentList = courseList; Console.WriteLine("why"); }
             // else display filtered list
             else
             { 
@@ -342,36 +268,33 @@ namespace CourseRegistrationSystem
                 {
                     if (c.Department == (string)cmb.SelectedItem) { filteredCourseList.Add(c); }
                 }
-                page = 0;
                 currentList = filteredCourseList;
             }
+            lblShowing.Text = "Page " + (page + 1).ToString();
             ClearDataGrid();
             PopulateDataGrid();
+            if (maxPages > 0) { btnNext.Enabled = true; }
+            else { btnNext.Enabled = false; }
         }
-
-        
-
         private void btnPrev_Click(object sender, EventArgs e)
         {
             page--;
             if (page == 0) { btnPrev.Enabled = false; }
-            else if (page != maxPages) { btnNext.Enabled = true; }
+            if (page < maxPages) { btnNext.Enabled = true; }
             lblShowing.Text = "Page " + (page + 1).ToString();
             ClearDataGrid();
             PopulateDataGrid();
         }
-
         private void btnFilter_Click(object sender, EventArgs e)
         {
             // Clear filter selection
             cmbFilter.SelectedIndex = -1;
         }
-
         private void btnNext_Click(object sender, EventArgs e)
         {
             page++;
             if (page == maxPages) { btnNext.Enabled = false; }
-            else if (page != 0) { btnPrev.Enabled = true; }
+            if (page > 0) { btnPrev.Enabled = true; }
             lblShowing.Text = "Page " + (page + 1).ToString();
             ClearDataGrid();
             PopulateDataGrid();

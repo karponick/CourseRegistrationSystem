@@ -70,7 +70,6 @@
             this.listViewCourses.UseCompatibleStateImageBehavior = false;
             this.listViewCourses.View = System.Windows.Forms.View.Details;
             this.listViewCourses.Visible = false;
-            this.listViewCourses.SelectedIndexChanged += new System.EventHandler(this.listViewCourses_SelectedIndexChanged);
             // 
             // columnHeader1
             // 
