@@ -10,8 +10,9 @@ namespace CourseRegistrationSystem
 {
     internal class MeetingTimes : Panel
     {
+        private readonly static Dictionary<string, MeetingTimes> meetingTimesList = new Dictionary<string, MeetingTimes>();
         private readonly string[] LETTERS = { "M", "T", "W", "T", "F" };
-        public MeetingTimes(bool[] days, string times)
+        public MeetingTimes(bool[] days, string times, string courseCode)
         {
             // Colored square labels for day booleans
             Size = new Size(199, 39);
@@ -37,8 +38,10 @@ namespace CourseRegistrationSystem
                 Location = new Point(105, 15)
             };
             Controls.Add (lblTime);
+            meetingTimesList[courseCode] = this;
         }
-
+        
+        public static Dictionary<string, MeetingTimes> MeetingTimesList {  get { return meetingTimesList; } }
         /* 
          * Square Labels for MTWTF display
          * There is probably a better way to do this,
