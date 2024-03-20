@@ -10,6 +10,7 @@ namespace CourseRegistrationSystem
     public partial class frmMain : Form
     {
         private bool validation = false;
+        private readonly Dictionary<string, Course> courseList = new Dictionary<string, Course>();
         // Constructor
         public frmMain()
         {
@@ -66,7 +67,7 @@ namespace CourseRegistrationSystem
                 if (dayString[i] == 'T') { course.Days[i] = true; }
                 else if (dayString[i] == 'F') { course.Days[i] = false; }
             }
-            Course.CourseList[course.Code] = course;
+            courseList[course.Code] = course;
         }
 
         // Events
@@ -76,7 +77,7 @@ namespace CourseRegistrationSystem
             lblStatus.Visible = false;
 
             // if course code is already in list, then return (dont submit)
-            if (Course.CourseList.ContainsKey(txtCode.Text)) 
+            if (courseList.ContainsKey(txtCode.Text)) 
             {
                 lblStatus.Visible = true;
                 lblStatus.Text = "Error: Course with this code already exists in list.";
@@ -157,7 +158,7 @@ namespace CourseRegistrationSystem
                     if (chk.Checked) { course.Days[i] = true; }
                     i++;
                 }
-                Course.CourseList[course.Code] = course;
+                courseList[course.Code] = course;
                 lblStatus.Visible = true;
                 lblStatus.Text = "Course submitted successfully.";
                 lblStatus.ForeColor = Color.Green;
@@ -167,7 +168,7 @@ namespace CourseRegistrationSystem
 
         private void btnViewList_Click(object sender, EventArgs e)
         {
-            frmCourseListing newCourseList = new frmCourseListing(comboDepartment.Items);
+            frmCourseListing newCourseList = new frmCourseListing(courseList);
             newCourseList.ShowDialog();
         }
 

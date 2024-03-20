@@ -9,22 +9,20 @@ namespace CourseRegistrationSystem
     public partial class frmCourseListing : Form
     {
         // Fields
+        private readonly Dictionary<string, Course> courseList = new Dictionary<string, Course>();
         private readonly List<string> defaultCodeList;
         private List<string> currentList;
         readonly Panel detailPanel;
         private int page, maxPages;
 
         // Constructor
-        public frmCourseListing(ComboBox.ObjectCollection departmentList)
+        public frmCourseListing(Dictionary<string, Course> courseList)
         {
             InitializeComponent();
-            defaultCodeList = Course.CourseList.Keys.ToList();
+            this.courseList = courseList;
+            defaultCodeList = courseList.Keys.ToList();
             currentList = defaultCodeList;
             datGrdVwCourses.RowTemplate.Height = 40;
-            foreach (string department  in departmentList)
-            {
-                cmbFilter.Items.Add(department);
-            }
             page = 0;
             maxPages = 0;
             // Create panel for course details
@@ -55,7 +53,7 @@ namespace CourseRegistrationSystem
                 if (index > currentList.Count - 1) { break; }
 
                 // Add course to data grid
-                Course course = Course.CourseList[currentList[index]];
+                Course course = courseList[currentList[index]];
                 string[] courseInfo = { course.Code, course.Title, course.TimeString(),
                 course.CapacityString(), course.Professor};
 
@@ -132,7 +130,7 @@ namespace CourseRegistrationSystem
                 // Get details for selected course
                 DataGridViewRow selectedItem = datGrdVwCourses.SelectedRows[0];
                 string selectedCode = selectedItem.Cells[0].Value.ToString();
-                Course selectedCourse = Course.CourseList[selectedCode];
+                Course selectedCourse = courseList[selectedCode];
 
                 // PANEL IS 400x370
 
@@ -253,7 +251,7 @@ namespace CourseRegistrationSystem
                 List<string> filteredCourseList = new List<string>();
                 foreach (string courseCode in defaultCodeList)
                 {
-                    Course course = Course.CourseList[courseCode];
+                    Course course = courseList[courseCode];
                     if (course.Department == (string)cmb.SelectedItem) { filteredCourseList.Add(courseCode); }
                 }
                 currentList = filteredCourseList;
