@@ -1,0 +1,153 @@
+﻿CIS
+CIS 3309
+Component-Based Software Design
+This course emphasizes component-based software development using a modern object-oriented programming (OOP) language (currently C#). Students are introduced to software development techniques applicable in a component (class)-based, integrated software development environment (IDE). Students will learn (and practice using) the OOP language, object-oriented software design techniques, and the principles of good user interface design. Students will also learn how to navigate in, and take full advantage of, an IDE in building quality software, including user interfaces to databases, sequential files, and graphics tools. Object-oriented concepts such as inheritance, polymorphism, static and dynamic binding, and interface (abstract class) components will be covered. The primary focus is on windows-based software products, but the use of ASP.NET for client-server systems development is also introduced. 
+4
+prereqs
+TFTFT
+3:30pm
+4:50pm
+36
+6
+Christopher M. Pascucci
+https://i.kym-cdn.com/entries/icons/original/000/027/475/Screen_Shot_2018-10-25_at_11.02.15_AM.png
+
+CIS 
+CIS 3308
+Web Application Programming
+This course introduces the techniques used in the design and implementation of web applications. Using development environments such as Dreamweaver, Visual Studio, Eclipse, Netbeans, and SQL Management Studio, students write code for the browser (HTML, Cascading Style Sheets, javascript, ajax), web application server (JSP, PHP, or C# .NET), and database server (SQL, stored procedures, triggers). Students learn about internet protocols and how to work with web application objects (e.g., request, response, session). Students learn how design patterns such as MVC (Model-View-Controller) can and should be applied to the multi-tiered, distributed software that make up today's web applications. XML (a format commonly used to transfer data over the internet) and web services (a method call to a remote computer over the internet) are discussed and demonstrated. Each student will program their own web application, expanding on its functionality each week in the lab.
+4
+prereqs
+FTFTF
+11:00am
+12:50pm
+40
+2
+TBD
+https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/1200px-Cat03.jpg
+
+CIS
+CIS 3319
+Wireless Networks and Security
+The students are expected to learn fundamental knowledge of cryptography, several types of important wireless networks, and security issues and defenses in the wireless networks and systems.
+4
+prereqs
+TTTFF
+1:30pm
+2:20pm
+18
+8
+TBD
+https://www.thesprucepets.com/thmb/Wy9Vno45XeFtos7omJ80qkZrtZc=/3760x0/filters:no_upscale():strip_icc()/GettyImages-174770333-0f52afc06a024c478fafb1280c1f491f.jpg
+
+CIS 
+CIS 3329
+Network Architectures
+This course covers the operation of computer networks and internets. It provides the background to enable students to evaluate alternative approaches to client-server computing and n-tier software development. To accomplish this the course includes communications technology, computer network technology internetworking using the TCP/IP protocol suite, client-server protocols, client-server computing, network program component models as well as issues involving security, privacy, authentication, intellectual property rights, and social changes related to computer networking. 
+3
+prereqs
+FTFTF
+11:00am
+12:50pm
+30
+10
+Claudia
+https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/1200px-Cat03.jpg
+
+CIS
+CIS 3342
+Server-Side Web Application Development
+The objective of this course is to provide further depth, beyond CIS 3309, into the development of network deployed systems. Its emphasis is on distributed, multi-tier architectures. The course is divided into 3 parts. First is the theory associated with software engineering design principles and distributed processing in client/server architectures and database systems. The second part is a deeper knowledge of the ASP.NET and C#.NET languages beyond CIS 3309. This would include such topics as web and windows applications, user interfaces, event handling, database design and ADO.NET, Web Services, Ajax, user controls, and report generation. The third part of the course is a project that the student will perform in the design and programming of a distributed client/server application.
+4
+prereqs
+TFTFT
+9:30pm
+10:50pm
+36
+0
+Sally
+https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Cat_August_2010-4.jpg/1200px-Cat_August_2010-4.jpg
+
+BIO
+BIO 1001
+Basic Biology
+Mitochondria is the powerhouse of the cell
+4
+prereqs
+FTFTF
+3:30pm
+4:50pm
+100
+2
+Dr. Pikachu
+https://i.kym-cdn.com/entries/icons/original/000/027/475/Screen_Shot_2018-10-25_at_11.02.15_AM.png
+
+MAT
+MAT 1001
+Basic Math
+Math yay
+4
+prereqs
+TFTFT
+3:30pm
+4:50pm
+36
+6
+Euler
+https://th-thumbnailer.cdn-si-edu.com/bgmkh2ypz03IkiRR50I-UMaqUQc=/1000x750/filters:no_upscale():focal(1061x707:1062x708)/https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer_public/55/95/55958815-3a8a-4032-ac7a-ff8c8ec8898a/gettyimages-1067956982.jpg
+
+MAT
+MAT 1
+Math Template
+Something something something description
+4
+prereqs
+TFTFT
+12:00pm
+1:50pm
+34
+9
+Someone
+https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Orange_question_mark.svg/450px-Orange_question_mark.svg.png?20220903225041
+
+MAT
+MAT 2
+Math Template
+Something something something description
+4
+prereqs
+TFTFT
+12:00pm
+1:50pm
+34
+9
+Someone
+https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Orange_question_mark.svg/450px-Orange_question_mark.svg.png?20220903225041
+
+MAT
+MAT 3
+Math Template
+Something something something description
+4
+prereqs
+TFTFT
+12:00pm
+1:50pm
+34
+9
+Someone
+https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Orange_question_mark.svg/450px-Orange_question_mark.svg.png?20220903225041
+
+MAT
+MAT 4
+Math Template
+Something something something description
+4
+prereqs
+TFTFT
+12:00pm
+1:50pm
+34
+9
+Someone
+https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Orange_question_mark.svg/450px-Orange_question_mark.svg.png?20220903225041

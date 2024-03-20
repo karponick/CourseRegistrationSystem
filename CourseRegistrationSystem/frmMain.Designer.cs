@@ -64,6 +64,7 @@
             this.txtCredits = new System.Windows.Forms.TextBox();
             this.lblStatus = new System.Windows.Forms.Label();
             this.btnClear = new System.Windows.Forms.Button();
+            this.btnValidation = new System.Windows.Forms.Button();
             this.flowDays.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picProf)).BeginInit();
             this.SuspendLayout();
@@ -122,7 +123,7 @@
             this.flowDays.Controls.Add(this.chkWed);
             this.flowDays.Controls.Add(this.chkThurs);
             this.flowDays.Controls.Add(this.chkFri);
-            this.flowDays.Location = new System.Drawing.Point(317, 328);
+            this.flowDays.Location = new System.Drawing.Point(317, 276);
             this.flowDays.Name = "flowDays";
             this.flowDays.Size = new System.Drawing.Size(295, 42);
             this.flowDays.TabIndex = 6;
@@ -222,9 +223,9 @@
             // 
             // btnSubmit
             // 
-            this.btnSubmit.Location = new System.Drawing.Point(537, 386);
+            this.btnSubmit.Location = new System.Drawing.Point(419, 386);
             this.btnSubmit.Name = "btnSubmit";
-            this.btnSubmit.Size = new System.Drawing.Size(75, 23);
+            this.btnSubmit.Size = new System.Drawing.Size(193, 23);
             this.btnSubmit.TabIndex = 12;
             this.btnSubmit.Text = "Submit";
             this.btnSubmit.UseVisualStyleBackColor = true;
@@ -367,7 +368,7 @@
             // lblDays
             // 
             this.lblDays.AutoSize = true;
-            this.lblDays.Location = new System.Drawing.Point(317, 304);
+            this.lblDays.Location = new System.Drawing.Point(317, 252);
             this.lblDays.Name = "lblDays";
             this.lblDays.Size = new System.Drawing.Size(59, 13);
             this.lblDays.TabIndex = 28;
@@ -384,7 +385,7 @@
             // lblStatus
             // 
             this.lblStatus.ForeColor = System.Drawing.Color.Red;
-            this.lblStatus.Location = new System.Drawing.Point(300, 391);
+            this.lblStatus.Location = new System.Drawing.Point(381, 357);
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(231, 13);
             this.lblStatus.TabIndex = 30;
@@ -394,7 +395,7 @@
             // 
             // btnClear
             // 
-            this.btnClear.Location = new System.Drawing.Point(168, 386);
+            this.btnClear.Location = new System.Drawing.Point(317, 385);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(75, 23);
             this.btnClear.TabIndex = 31;
@@ -402,11 +403,23 @@
             this.btnClear.UseVisualStyleBackColor = true;
             this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
+            // btnValidation
+            // 
+            this.btnValidation.BackColor = System.Drawing.Color.LightPink;
+            this.btnValidation.Location = new System.Drawing.Point(159, 385);
+            this.btnValidation.Name = "btnValidation";
+            this.btnValidation.Size = new System.Drawing.Size(130, 23);
+            this.btnValidation.TabIndex = 32;
+            this.btnValidation.Text = "Toggle Validation";
+            this.btnValidation.UseVisualStyleBackColor = false;
+            this.btnValidation.Click += new System.EventHandler(this.btnValidation_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(635, 420);
+            this.Controls.Add(this.btnValidation);
             this.Controls.Add(this.btnClear);
             this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.txtCredits);
@@ -489,6 +502,7 @@
         private System.Windows.Forms.TextBox txtCredits;
         private System.Windows.Forms.Label lblStatus;
         private System.Windows.Forms.Button btnClear;
+        private System.Windows.Forms.Button btnValidation;
     }
 }
 

@@ -1,19 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.LinkLabel;
 
 namespace CourseRegistrationSystem
 {
     public partial class frmMain : Form
     {
+        private bool validation = false;
         // Constructor
         public frmMain()
         {
@@ -135,13 +131,13 @@ namespace CourseRegistrationSystem
             // Time (Start and End)
 
             // Image url
-            noErrors = true;
+
             // If there are no input errors, gather info and submit new course
-            if (noErrors)
+            if (noErrors || !validation)
             {
                 Course course = new Course
                 {
-                    Department = comboDepartment.SelectedText,
+                    Department = (string)comboDepartment.SelectedItem,
                     Code = txtCode.Text,
                     Title = txtTitle.Text,
                     Description = txtDescription.Text,
@@ -189,17 +185,13 @@ namespace CourseRegistrationSystem
         private void btnClear_Click(object sender, EventArgs e)
         {
             comboDepartment.SelectedIndex = -1;
-            txtCode.Clear();
-            txtTitle.Clear();
-            txtDescription.Clear();
-            txtCredits.Clear();
-            //prereqs
-            txtTimeStart.Clear();
-            txtTimeEnd.Clear();
-            txtSeatsMax.Clear();
-            txtSeatsAvail.Clear();
-            txtProf.Clear();
-            txtProfImgUrl.Clear();
+            lblDep.ForeColor = default;
+            ////prereqs
+            foreach (TextBox txt in Controls.OfType<TextBox>())
+            {
+                txt.Clear();
+                txt.BackColor = default;
+            }
             picProf.Image = null;
             foreach (CheckBox chk in flowDays.Controls)
             {
@@ -214,6 +206,13 @@ namespace CourseRegistrationSystem
                 picProf.Load(txtProfImgUrl.Text);
                 picProf.SizeMode = PictureBoxSizeMode.StretchImage;
             } catch { }
+        }
+
+        private void btnValidation_Click(object sender, EventArgs e)
+        {
+            validation = !validation;
+            if (validation) { btnValidation.BackColor = Color.LightGreen; }
+            else { btnValidation.BackColor = Color.LightPink; }
         }
     }
 }
