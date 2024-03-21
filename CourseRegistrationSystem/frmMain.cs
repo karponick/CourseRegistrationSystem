@@ -11,10 +11,13 @@ namespace CourseRegistrationSystem
     {
         private bool validation = false;
         private readonly Dictionary<string, Course> courseList = new Dictionary<string, Course>();
+        private readonly Dictionary<string, Course> newCourseList = new Dictionary<string, Course>(); // For file outpu
+        private List<string> prereqList;
         // Constructor
         public frmMain()
         {
             InitializeComponent();
+            prereqList = new List<string>();
             List<string> courseData = new List<string>();
             try
             {
@@ -25,7 +28,7 @@ namespace CourseRegistrationSystem
                     // the file is reached.
                     while ((line = sr.ReadLine()) != null)
                     {
-                        if (line == string.Empty)
+                        if (line == "---")
                         {
                             CreateCourse(courseData);
                             courseData.Clear();
@@ -38,7 +41,7 @@ namespace CourseRegistrationSystem
             catch (Exception e)
             {
                 // Let the user know what went wrong.
-                Console.WriteLine("The file could not be read:");
+                Console.WriteLine("Error reading file:");
                 Console.WriteLine(e.Message);
             }
         }
@@ -53,7 +56,7 @@ namespace CourseRegistrationSystem
                 Title = data[2],
                 Description = data[3],
                 Credits = data[4],
-                // prereqs
+                Prereqs = data[5].Split(',').ToList(),
                 StartTime = data[7],
                 EndTime = data[8],
                 SeatsMax = data[9],
@@ -61,6 +64,7 @@ namespace CourseRegistrationSystem
                 Professor = data[11],
                 ProfessorImgUrl = data[12],
             };
+            // Days
             for (int i = 0; i < 5; i++)
             {
                 string dayString = data[6];
@@ -68,18 +72,18 @@ namespace CourseRegistrationSystem
                 else if (dayString[i] == 'F') { course.Days[i] = false; }
             }
             courseList[course.Code] = course;
+            comboPrereqs.Items.Add(course.Code);
         }
 
         // Events
         private void btnSubmit_Click(object sender, EventArgs e)
         {
             bool noErrors = true;
-            lblStatus.Visible = false;
+            lblStatus.Text = string.Empty;
 
             // if course code is already in list, then return (dont submit)
             if (courseList.ContainsKey(txtCode.Text)) 
             {
-                lblStatus.Visible = true;
                 lblStatus.Text = "Error: Course with this code already exists in list.";
                 lblStatus.ForeColor = Color.Red;
                 return; 
@@ -143,7 +147,7 @@ namespace CourseRegistrationSystem
                     Title = txtTitle.Text,
                     Description = txtDescription.Text,
                     Credits = txtCredits.Text,
-                    // prereqs
+                    Prereqs = prereqList,
                     StartTime = txtTimeStart.Text,
                     EndTime = txtTimeEnd.Text,
                     SeatsMax = txtSeatsMax.Text,
@@ -151,6 +155,7 @@ namespace CourseRegistrationSystem
                     Professor = txtProf.Text,
                     ProfessorImgUrl = txtProfImgUrl.Text,
                 };
+
                 // If a day is checked, add to list of days for that course
                 int i = 0;
                 foreach (CheckBox chk in flowDays.Controls.OfType<CheckBox>())
@@ -159,16 +164,22 @@ namespace CourseRegistrationSystem
                     i++;
                 }
                 courseList[course.Code] = course;
-                lblStatus.Visible = true;
+                newCourseList[course.Code] = course;
                 lblStatus.Text = "Course submitted successfully.";
                 lblStatus.ForeColor = Color.Green;
+                return;
+            }
+            else
+            {
+                lblStatus.Text = "Error: Invalid data.";
+                lblStatus.ForeColor = Color.Red;
                 return;
             }
         }
 
         private void btnViewList_Click(object sender, EventArgs e)
         {
-            frmCourseListing newCourseList = new frmCourseListing(courseList);
+            frmCourseListing newCourseList = new frmCourseListing(courseList, false, this);
             newCourseList.ShowDialog();
         }
 
@@ -187,7 +198,8 @@ namespace CourseRegistrationSystem
         {
             comboDepartment.SelectedIndex = -1;
             lblDep.ForeColor = default;
-            ////prereqs
+            lstPrereqs.Items.Clear();
+            prereqList.Clear();
             foreach (TextBox txt in Controls.OfType<TextBox>())
             {
                 txt.Clear();
@@ -198,6 +210,7 @@ namespace CourseRegistrationSystem
             {
                 chk.Checked = false;
             }
+            lblStatus.Text = string.Empty;
         }
 
         private void txtProfImgUrl_TextChanged(object sender, EventArgs e)
@@ -214,6 +227,59 @@ namespace CourseRegistrationSystem
             validation = !validation;
             if (validation) { btnValidation.BackColor = Color.LightGreen; }
             else { btnValidation.BackColor = Color.LightPink; }
+        }
+
+        private void btnRegistration_Click(object sender, EventArgs e)
+        {
+            frmRegistration registrationForm = new frmRegistration(courseList);
+            registrationForm.ShowDialog();
+        }
+
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            if (comboPrereqs.SelectedIndex >= 0) 
+            {
+                string code = comboPrereqs.Items[comboPrereqs.SelectedIndex].ToString();
+                if (!prereqList.Contains(code))
+                {
+                    prereqList.Add(code);
+                    lstPrereqs.Items.Add(code);
+                }
+                
+            }
+        }
+
+        private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (newCourseList.Count > 0) {
+                try
+                {
+                    using (StreamWriter sw = new StreamWriter("course_list.txt", true))
+                    {
+                        foreach (string code in newCourseList.Keys) // for each new course
+                        {
+                            Course course = newCourseList[code];
+                            foreach (string data in course.OutputArr()) // for each data in course
+                            {
+                                if (data != string.Empty)
+                                {
+                                    sw.WriteLine(data);
+                                }
+                                else
+                                {
+                                    sw.WriteLine();
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Let the user know what went wrong.
+                    Console.WriteLine("Error reading file:");
+                    Console.WriteLine(ex.Message);
+                }
+            }
         }
     }
 }

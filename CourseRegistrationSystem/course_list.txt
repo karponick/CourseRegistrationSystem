@@ -11,7 +11,7 @@ TFTFT
 6
 Christopher M. Pascucci
 https://i.kym-cdn.com/entries/icons/original/000/027/475/Screen_Shot_2018-10-25_at_11.02.15_AM.png
-
+---
 CIS 
 CIS 3308
 Web Application Programming
@@ -25,7 +25,7 @@ FTFTF
 2
 TBD
 https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/1200px-Cat03.jpg
-
+---
 CIS
 CIS 3319
 Wireless Networks and Security
@@ -39,7 +39,7 @@ TTTFF
 8
 TBD
 https://www.thesprucepets.com/thmb/Wy9Vno45XeFtos7omJ80qkZrtZc=/3760x0/filters:no_upscale():strip_icc()/GettyImages-174770333-0f52afc06a024c478fafb1280c1f491f.jpg
-
+---
 CIS 
 CIS 3329
 Network Architectures
@@ -53,7 +53,7 @@ FTFTF
 10
 Claudia
 https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/1200px-Cat03.jpg
-
+---
 CIS
 CIS 3342
 Server-Side Web Application Development
@@ -67,7 +67,7 @@ TFTFT
 0
 Sally
 https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Cat_August_2010-4.jpg/1200px-Cat_August_2010-4.jpg
-
+---
 BIO
 BIO 1001
 Basic Biology
@@ -81,7 +81,7 @@ FTFTF
 2
 Dr. Pikachu
 https://i.kym-cdn.com/entries/icons/original/000/027/475/Screen_Shot_2018-10-25_at_11.02.15_AM.png
-
+---
 MAT
 MAT 1001
 Basic Math
@@ -95,7 +95,7 @@ TFTFT
 6
 Euler
 https://th-thumbnailer.cdn-si-edu.com/bgmkh2ypz03IkiRR50I-UMaqUQc=/1000x750/filters:no_upscale():focal(1061x707:1062x708)/https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer_public/55/95/55958815-3a8a-4032-ac7a-ff8c8ec8898a/gettyimages-1067956982.jpg
-
+---
 MAT
 MAT 1
 Math Template
@@ -109,7 +109,7 @@ TFTFT
 9
 Someone
 https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Orange_question_mark.svg/450px-Orange_question_mark.svg.png?20220903225041
-
+---
 MAT
 MAT 2
 Math Template
@@ -123,7 +123,7 @@ TFTFT
 9
 Someone
 https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Orange_question_mark.svg/450px-Orange_question_mark.svg.png?20220903225041
-
+---
 MAT
 MAT 3
 Math Template
@@ -137,7 +137,7 @@ TFTFT
 9
 Someone
 https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Orange_question_mark.svg/450px-Orange_question_mark.svg.png?20220903225041
-
+---
 MAT
 MAT 4
 Math Template
@@ -151,3 +151,4 @@ TFTFT
 9
 Someone
 https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Orange_question_mark.svg/450px-Orange_question_mark.svg.png?20220903225041
+---

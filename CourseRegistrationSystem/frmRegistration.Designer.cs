@@ -37,11 +37,13 @@
             this.txtID = new System.Windows.Forms.TextBox();
             this.txtName = new System.Windows.Forms.TextBox();
             this.cmbSemester = new System.Windows.Forms.ComboBox();
-            this.listView1 = new System.Windows.Forms.ListView();
+            this.lstCourses = new System.Windows.Forms.ListView();
             this.hdrCode = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.hdrDays = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.hdrProf = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.hdrTimes = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.hdrProf = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.lblCost = new System.Windows.Forms.Label();
+            this.btnRemove = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lblID
@@ -77,6 +79,7 @@
             this.btnView.Name = "btnView";
             this.btnView.Size = new System.Drawing.Size(246, 23);
             this.btnView.TabIndex = 3;
+            this.btnView.TabStop = false;
             this.btnView.Text = "View Courses";
             this.btnView.UseVisualStyleBackColor = true;
             this.btnView.Click += new System.EventHandler(this.btnView_Click);
@@ -87,6 +90,7 @@
             this.btnSubmit.Name = "btnSubmit";
             this.btnSubmit.Size = new System.Drawing.Size(246, 23);
             this.btnSubmit.TabIndex = 4;
+            this.btnSubmit.TabStop = false;
             this.btnSubmit.Text = "Submit";
             this.btnSubmit.UseVisualStyleBackColor = true;
             this.btnSubmit.Click += new System.EventHandler(this.btnSubmit_Click);
@@ -97,6 +101,7 @@
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(246, 23);
             this.btnClear.TabIndex = 5;
+            this.btnClear.TabStop = false;
             this.btnClear.Text = "Clear";
             this.btnClear.UseVisualStyleBackColor = true;
             this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
@@ -106,37 +111,46 @@
             this.txtID.Location = new System.Drawing.Point(76, 6);
             this.txtID.Name = "txtID";
             this.txtID.Size = new System.Drawing.Size(182, 20);
-            this.txtID.TabIndex = 6;
+            this.txtID.TabIndex = 0;
             // 
             // txtName
             // 
             this.txtName.Location = new System.Drawing.Point(76, 32);
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(182, 20);
-            this.txtName.TabIndex = 7;
+            this.txtName.TabIndex = 1;
             // 
             // cmbSemester
             // 
+            this.cmbSemester.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbSemester.FormattingEnabled = true;
+            this.cmbSemester.Items.AddRange(new object[] {
+            "Fall",
+            "Spring",
+            "Summer I",
+            "Summer II"});
             this.cmbSemester.Location = new System.Drawing.Point(76, 58);
             this.cmbSemester.Name = "cmbSemester";
             this.cmbSemester.Size = new System.Drawing.Size(182, 21);
-            this.cmbSemester.TabIndex = 8;
+            this.cmbSemester.TabIndex = 2;
             // 
-            // listView1
+            // lstCourses
             // 
-            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.lstCourses.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.hdrCode,
             this.hdrDays,
             this.hdrTimes,
             this.hdrProf});
-            this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(264, 6);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(524, 160);
-            this.listView1.TabIndex = 9;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.Details;
+            this.lstCourses.FullRowSelect = true;
+            this.lstCourses.GridLines = true;
+            this.lstCourses.HideSelection = false;
+            this.lstCourses.Location = new System.Drawing.Point(264, 6);
+            this.lstCourses.Name = "lstCourses";
+            this.lstCourses.Size = new System.Drawing.Size(655, 131);
+            this.lstCourses.TabIndex = 9;
+            this.lstCourses.UseCompatibleStateImageBehavior = false;
+            this.lstCourses.View = System.Windows.Forms.View.Details;
+            this.lstCourses.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.lstCourses_ItemSelectionChanged);
             // 
             // hdrCode
             // 
@@ -146,24 +160,46 @@
             // hdrDays
             // 
             this.hdrDays.Text = "Days";
-            this.hdrDays.Width = 150;
-            // 
-            // hdrProf
-            // 
-            this.hdrProf.Text = "Professor";
-            this.hdrProf.Width = 150;
+            this.hdrDays.Width = 250;
             // 
             // hdrTimes
             // 
             this.hdrTimes.Text = "Times";
             this.hdrTimes.Width = 150;
             // 
+            // hdrProf
+            // 
+            this.hdrProf.Text = "Professor";
+            this.hdrProf.Width = 150;
+            // 
+            // lblCost
+            // 
+            this.lblCost.AutoSize = true;
+            this.lblCost.Location = new System.Drawing.Point(264, 148);
+            this.lblCost.Name = "lblCost";
+            this.lblCost.Size = new System.Drawing.Size(95, 13);
+            this.lblCost.TabIndex = 10;
+            this.lblCost.Text = "$700 / Credit Hour";
+            // 
+            // btnRemove
+            // 
+            this.btnRemove.Location = new System.Drawing.Point(766, 143);
+            this.btnRemove.Name = "btnRemove";
+            this.btnRemove.Size = new System.Drawing.Size(153, 23);
+            this.btnRemove.TabIndex = 11;
+            this.btnRemove.Text = "Remove Course";
+            this.btnRemove.UseVisualStyleBackColor = true;
+            this.btnRemove.Visible = false;
+            this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
+            // 
             // frmRegistration
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(794, 175);
-            this.Controls.Add(this.listView1);
+            this.ClientSize = new System.Drawing.Size(926, 174);
+            this.Controls.Add(this.btnRemove);
+            this.Controls.Add(this.lblCost);
+            this.Controls.Add(this.lstCourses);
             this.Controls.Add(this.cmbSemester);
             this.Controls.Add(this.txtName);
             this.Controls.Add(this.txtID);
@@ -173,6 +209,9 @@
             this.Controls.Add(this.lblSemester);
             this.Controls.Add(this.lblName);
             this.Controls.Add(this.lblID);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "frmRegistration";
             this.Text = "Student Registration";
             this.ResumeLayout(false);
@@ -191,10 +230,12 @@
         private System.Windows.Forms.TextBox txtID;
         private System.Windows.Forms.TextBox txtName;
         private System.Windows.Forms.ComboBox cmbSemester;
-        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ListView lstCourses;
         private System.Windows.Forms.ColumnHeader hdrCode;
         private System.Windows.Forms.ColumnHeader hdrDays;
         private System.Windows.Forms.ColumnHeader hdrTimes;
         private System.Windows.Forms.ColumnHeader hdrProf;
+        private System.Windows.Forms.Label lblCost;
+        private System.Windows.Forms.Button btnRemove;
     }
 }
