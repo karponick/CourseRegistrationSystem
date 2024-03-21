@@ -179,6 +179,12 @@
             // 
             this.cmbFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbFilter.FormattingEnabled = true;
+            this.cmbFilter.Items.AddRange(new object[] {
+            "CIS",
+            "CHE",
+            "MAT",
+            "BUS",
+            "BIO"});
             this.cmbFilter.Location = new System.Drawing.Point(818, 28);
             this.cmbFilter.Name = "cmbFilter";
             this.cmbFilter.Size = new System.Drawing.Size(101, 21);

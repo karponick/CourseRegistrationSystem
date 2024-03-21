@@ -1,12 +1,7 @@
 ﻿using System;
-using System.CodeDom.Compiler;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CourseRegistrationSystem
@@ -14,22 +9,25 @@ namespace CourseRegistrationSystem
     public partial class frmCourseListing : Form
     {
         // Fields
+        private readonly Dictionary<string, Course> courseList = new Dictionary<string, Course>();
         private readonly List<string> defaultCodeList;
         private List<string> currentList;
         readonly Panel detailPanel;
         private int page, maxPages;
+        private readonly bool forRegistration;
+        private Course selectedCourse;
+        private Form parentForm;
 
         // Constructor
-        public frmCourseListing(ComboBox.ObjectCollection departmentList)
+        public frmCourseListing(Dictionary<string, Course> courseList, bool forRegistration, Form parentForm)
         {
             InitializeComponent();
-            defaultCodeList = Course.CourseList.Keys.ToList();
+            this.parentForm = parentForm;
+            this.forRegistration = forRegistration; // Adds button to Detail Panel for student registration
+            this.courseList = courseList;
+            defaultCodeList = courseList.Keys.ToList();
             currentList = defaultCodeList;
             datGrdVwCourses.RowTemplate.Height = 40;
-            foreach (string department  in departmentList)
-            {
-                cmbFilter.Items.Add(department);
-            }
             page = 0;
             maxPages = 0;
             // Create panel for course details
@@ -60,7 +58,7 @@ namespace CourseRegistrationSystem
                 if (index > currentList.Count - 1) { break; }
 
                 // Add course to data grid
-                Course course = Course.CourseList[currentList[index]];
+                Course course = courseList[currentList[index]];
                 string[] courseInfo = { course.Code, course.Title, course.TimeString(),
                 course.CapacityString(), course.Professor};
 
@@ -122,9 +120,9 @@ namespace CourseRegistrationSystem
         }
 
         // Events
-        // Need this to clear selected row when launching courselist view and detail panel
         private void frmCourseListing_Load(object sender, EventArgs e)
         {
+            // Need this event to clear selected row when launching courselist view and detail panel
             datGrdVwCourses.ClearSelection();
             if (detailPanel != null) { detailPanel.Visible = false; }
         }
@@ -137,7 +135,7 @@ namespace CourseRegistrationSystem
                 // Get details for selected course
                 DataGridViewRow selectedItem = datGrdVwCourses.SelectedRows[0];
                 string selectedCode = selectedItem.Cells[0].Value.ToString();
-                Course selectedCourse = Course.CourseList[selectedCode];
+                selectedCourse = courseList[selectedCode];
 
                 // PANEL IS 400x370
 
@@ -161,10 +159,18 @@ namespace CourseRegistrationSystem
                 Label lblDescription = new Label
                 {
                     Text = selectedCourse.Description,
-                    Size = new Size(380, 120),
+                    Size = new Size(380, 90),
                     Location = new Point(10, 60),
                 };
                 ModifyDetailLabel(lblDescription);
+
+                Label lblPrereqs = new Label
+                {
+                    Text = string.Join(", ", selectedCourse.Prereqs),
+                    Size = new Size(380, 20),
+                    Location = new Point(10, 160)
+                };
+                ModifyDetailLabel(lblPrereqs);
 
                 Panel meetingTimes = new MeetingTimes(selectedCourse.Days, selectedCourse.TimeString(), null)
                 {
@@ -213,21 +219,36 @@ namespace CourseRegistrationSystem
                     Text = "Close",
                     Size = new Size(199, 20),
                     Location = new Point(10, 340),
-                    BackColor = Color.CornflowerBlue
+                    BackColor = Color.LightBlue
                 };
                 btnClose.Click += btnClose_Click;
+
+
+                if (forRegistration)
+                {
+                    btnClose.Size = new Size(95, 20);
+                    Button btnAdd = new Button
+                    {
+                        Text = "Add Course",
+                        Size = new Size(94, 20),
+                        Location = new Point(115, 340),
+                        BackColor = Color.LightGreen
+                    };
+                    btnAdd.Click += btnAdd_Click;
+                    detailPanel.Controls.Add(btnAdd);
+                }
 
 
                 // Add all controls to panel
                 detailPanel.Controls.Add(lblCode);
                 detailPanel.Controls.Add(lblTitle);
                 detailPanel.Controls.Add(lblDescription);
+                detailPanel.Controls.Add(lblPrereqs);
                 detailPanel.Controls.Add(meetingTimes);
                 detailPanel.Controls.Add(lblProfessor);
                 detailPanel.Controls.Add(picProfImg);
                 detailPanel.Controls.Add(lblCapacity);
                 detailPanel.Controls.Add(lblCredits);
-
                 detailPanel.Controls.Add(btnClose);
 
                 // Make course detail panel visible
@@ -258,7 +279,7 @@ namespace CourseRegistrationSystem
                 List<string> filteredCourseList = new List<string>();
                 foreach (string courseCode in defaultCodeList)
                 {
-                    Course course = Course.CourseList[courseCode];
+                    Course course = courseList[courseCode];
                     if (course.Department == (string)cmb.SelectedItem) { filteredCourseList.Add(courseCode); }
                 }
                 currentList = filteredCourseList;
@@ -291,6 +312,25 @@ namespace CourseRegistrationSystem
             lblShowing.Text = "Page " + (page + 1).ToString();
             ClearDataGrid();
             PopulateDataGrid();
+        }
+        public void btnAdd_Click(object sender, EventArgs e)
+        {
+            int.TryParse(selectedCourse.SeatsAvail, out int availableSeats);
+            if (availableSeats > 0)
+            {
+                // Add course to student registration
+                frmRegistration parent = parentForm as frmRegistration;
+                if (parent.AddCourse(selectedCourse)) // if added successfully
+                {
+                    selectedCourse.SeatsAvail = (--availableSeats).ToString();
+                    ClearDataGrid();
+                    PopulateDataGrid();
+                }
+            }
+            else
+            {
+                MessageBox.Show("No seats available.");
+            }
         }
     }
 }
