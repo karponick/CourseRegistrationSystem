@@ -47,6 +47,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Course.cs" />
+    <Compile Include="DetailPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="frmCourseListing.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -65,7 +68,7 @@
     <Compile Include="frmRegistration.Designer.cs">
       <DependentUpon>frmRegistration.cs</DependentUpon>
     </Compile>
-    <Compile Include="MeetingTimes.cs">
+    <Compile Include="MeetingPanel.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Program.cs" />

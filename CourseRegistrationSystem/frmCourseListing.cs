@@ -12,11 +12,11 @@ namespace CourseRegistrationSystem
         private readonly Dictionary<string, Course> courseList = new Dictionary<string, Course>();
         private readonly List<string> defaultCodeList;
         private List<string> currentList;
-        readonly Panel detailPanel;
+        readonly DetailPanel detailPanel;
         private int page, maxPages;
         private readonly bool forRegistration;
         private Course selectedCourse;
-        private Form parentForm;
+        private readonly Form parentForm;
 
         // Constructor
         public frmCourseListing(Dictionary<string, Course> courseList, bool forRegistration, Form parentForm)
@@ -31,7 +31,7 @@ namespace CourseRegistrationSystem
             page = 0;
             maxPages = 0;
             // Create panel for course details
-            detailPanel = new Panel
+            detailPanel = new DetailPanel(this)
             {
                 Size = new Size(400, 370),
                 Location = new Point(350, 30),//(312, 13),
@@ -65,58 +65,53 @@ namespace CourseRegistrationSystem
                 // Datagridview implementation
                 datGrdVwCourses.Rows.Add(courseInfo);
 
-                Panel meetingTimes = GetMeetingPanel(course, new Point(302, 40 * meetingTimeLabelHeightPositionModifier + 22));
-                datGrdVwCourses.Controls.Add(meetingTimes);
+                Panel meetingPanel = GetMeetingPanel(course, new Point(302, 40 * meetingTimeLabelHeightPositionModifier + 22));
+                datGrdVwCourses.Controls.Add(meetingPanel);
                 meetingTimeLabelHeightPositionModifier++;
             }
             CloseDetailPanel();
 
         }
-        private void CloseDetailPanel()
+
+        public void CloseDetailPanel()
         {
             if (detailPanel != null)
             {
-                detailPanel.Controls.Clear();
                 datGrdVwCourses.ClearSelection();
-                detailPanel.Visible = false;
+                detailPanel.HideDetails();
             }
-        }
-        private void ModifyDetailLabel(Label lbl)
-        {
-            lbl.BorderStyle = BorderStyle.FixedSingle;
-            lbl.BackColor = Color.White;
-            lbl.TextAlign = ContentAlignment.MiddleCenter;
         }
         private void ClearDataGrid()
         {
             datGrdVwCourses.Rows.Clear();
             foreach(var control in datGrdVwCourses.Controls)
             {
-                if (control is MeetingTimes times)
+                if (control is MeetingPanel meetingPanel)
                 {
-                    times.Visible = false;
+                    meetingPanel.Visible = false;
                 }
             }
             CloseDetailPanel();
         }
         // Datagrid can access static list of all existing course MeetingTime panels
-        private MeetingTimes GetMeetingPanel(Course course, Point location)
+        private MeetingPanel GetMeetingPanel(Course course, Point location)
         {
-            MeetingTimes meetingTimes;
-            if (MeetingTimes.MeetingTimesList.ContainsKey(course.Code))
+            MeetingPanel meetingPanel;
+            if (MeetingPanel.MeetingPanelList.ContainsKey(course.Code))
             {
-                meetingTimes = MeetingTimes.MeetingTimesList[course.Code];
-                meetingTimes.Location = location;
+                meetingPanel = MeetingPanel.MeetingPanelList[course.Code];
+                meetingPanel.Location = location;
             }
             else
             {
-                meetingTimes = new MeetingTimes(course.Days, course.TimeString(), course.Code)
+                meetingPanel = new MeetingPanel()
                 {
                     Location = location
                 };
+                meetingPanel.Populate(course.Days, course.TimeString(), course.Code);
             }
-            meetingTimes.Visible = true;
-            return meetingTimes;
+            meetingPanel.Visible = true;
+            return meetingPanel;
         }
 
         // Events
@@ -136,135 +131,13 @@ namespace CourseRegistrationSystem
                 DataGridViewRow selectedItem = datGrdVwCourses.SelectedRows[0];
                 string selectedCode = selectedItem.Cells[0].Value.ToString();
                 selectedCourse = courseList[selectedCode];
-
-                // PANEL IS 400x370
-
-                // All controls for details within details panel
-                Label lblCode = new Label
-                {
-                    Text = selectedCourse.Code,
-                    Size = new Size(100, 40),
-                    Location = new Point(10, 10),
-                };
-                ModifyDetailLabel(lblCode);
-
-                Label lblTitle = new Label
-                {
-                    Text = selectedCourse.Title,
-                    Size = new Size(270, 40),
-                    Location = new Point(120, 10),
-                };
-                ModifyDetailLabel(lblTitle);
-
-                Label lblDescription = new Label
-                {
-                    Text = selectedCourse.Description,
-                    Size = new Size(380, 90),
-                    Location = new Point(10, 60),
-                };
-                ModifyDetailLabel(lblDescription);
-
-                Label lblPrereqs = new Label
-                {
-                    Text = string.Join(", ", selectedCourse.Prereqs),
-                    Size = new Size(380, 20),
-                    Location = new Point(10, 160)
-                };
-                ModifyDetailLabel(lblPrereqs);
-
-                Panel meetingTimes = new MeetingTimes(selectedCourse.Days, selectedCourse.TimeString(), null)
-                {
-                    Location = new Point(10, 190),
-                    BorderStyle = BorderStyle.FixedSingle
-                };
-
-                Label lblProfessor = new Label
-                {
-                    Text = selectedCourse.Professor,
-                    Size = new Size(199, 40),
-                    Location = new Point(10, 240),
-                };
-                ModifyDetailLabel(lblProfessor);
-
-                PictureBox picProfImg = new PictureBox
-                {
-                    Size = new Size(170, 170),
-                    Location = new Point(220, 190),
-                    SizeMode = PictureBoxSizeMode.StretchImage,
-                    BorderStyle = BorderStyle.FixedSingle,
-                    BackColor = Color.White
-                };
-                try { picProfImg.Load(selectedCourse.ProfessorImgUrl); }
-                catch (Exception ex) { Console.WriteLine("Image could not be loaded. " + ex.Message); }
-                
-
-                Label lblCapacity = new Label
-                {
-                    Text = selectedCourse.CapacityString(),
-                    Size = new Size(95, 40),
-                    Location = new Point(10, 290),
-                };
-                ModifyDetailLabel(lblCapacity);
-
-                Label lblCredits = new Label
-                {
-                    Text = selectedCourse.Credits + " credits",
-                    Size = new Size(94, 40),
-                    Location = new Point(115, 290),
-                };
-                ModifyDetailLabel(lblCredits);
-
-                Button btnClose = new Button
-                {
-                    Text = "Close",
-                    Size = new Size(199, 20),
-                    Location = new Point(10, 340),
-                    BackColor = Color.LightBlue
-                };
-                btnClose.Click += btnClose_Click;
-
-
-                if (forRegistration)
-                {
-                    btnClose.Size = new Size(95, 20);
-                    Button btnAdd = new Button
-                    {
-                        Text = "Add Course",
-                        Size = new Size(94, 20),
-                        Location = new Point(115, 340),
-                        BackColor = Color.LightGreen
-                    };
-                    btnAdd.Click += btnAdd_Click;
-                    detailPanel.Controls.Add(btnAdd);
-                }
-
-
-                // Add all controls to panel
-                detailPanel.Controls.Add(lblCode);
-                detailPanel.Controls.Add(lblTitle);
-                detailPanel.Controls.Add(lblDescription);
-                detailPanel.Controls.Add(lblPrereqs);
-                detailPanel.Controls.Add(meetingTimes);
-                detailPanel.Controls.Add(lblProfessor);
-                detailPanel.Controls.Add(picProfImg);
-                detailPanel.Controls.Add(lblCapacity);
-                detailPanel.Controls.Add(lblCredits);
-                detailPanel.Controls.Add(btnClose);
-
-                // Make course detail panel visible
-                detailPanel.Visible = true;
-                detailPanel.BringToFront();
+                detailPanel.Populate(selectedCourse, forRegistration);
             }
-
             else
             {
                 // Close details for deselected course
                 CloseDetailPanel();
             }
-        }
-        private void btnClose_Click(object sender, EventArgs e)
-        {
-            CloseDetailPanel();
         }
         private void cmbFilter_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -313,7 +186,9 @@ namespace CourseRegistrationSystem
             ClearDataGrid();
             PopulateDataGrid();
         }
-        public void btnAdd_Click(object sender, EventArgs e)
+
+        // Events called from Detail Panel
+        public void btnAdd_Click()
         {
             int.TryParse(selectedCourse.SeatsAvail, out int availableSeats);
             if (availableSeats > 0)

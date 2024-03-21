@@ -15,7 +15,7 @@ namespace CourseRegistrationSystem
         private string title;
         private string description;
         private string credits;
-        private List<String> prereqs;
+        private List<string> prereqs;
         private bool[] days;
         private string startTime;
         private string endTime;
