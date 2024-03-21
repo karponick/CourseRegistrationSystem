@@ -117,7 +117,8 @@
             this.comboPrereqs.Location = new System.Drawing.Point(83, 249);
             this.comboPrereqs.Name = "comboPrereqs";
             this.comboPrereqs.Size = new System.Drawing.Size(252, 21);
-            this.comboPrereqs.TabIndex = 5;
+            this.comboPrereqs.TabIndex = 35;
+            this.comboPrereqs.TabStop = false;
             // 
             // flowDays
             // 
@@ -441,6 +442,7 @@
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(36, 23);
             this.btnAdd.TabIndex = 33;
+            this.btnAdd.TabStop = false;
             this.btnAdd.Text = "Add";
             this.btnAdd.UseVisualStyleBackColor = true;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
