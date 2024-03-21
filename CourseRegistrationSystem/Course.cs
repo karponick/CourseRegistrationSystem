@@ -24,11 +24,13 @@ namespace CourseRegistrationSystem
         private string professor;
         private string professorImgUrl;
 
+        private readonly List<string> roster = new List<string>();
+
         // Constructor
         public Course()
         {
             days = new[]{false, false, false, false, false};
-            department = string.Empty;
+            department = "-";
         }
 
         // Properties
@@ -97,6 +99,7 @@ namespace CourseRegistrationSystem
             get { return professorImgUrl; }
             set { professorImgUrl = value; }
         }
+        public List <string> Roster { get { return roster; } }
 
         // Methods
         public string DayString()
@@ -121,7 +124,7 @@ namespace CourseRegistrationSystem
             string boolString = string.Empty;
             for (int i = 0; i < 5; i++)
             {
-                if (Days[i]) { boolString += Title; }
+                if (Days[i]) { boolString += "T"; }
                 else { boolString += "F"; }
             }
             return boolString;
@@ -134,20 +137,19 @@ namespace CourseRegistrationSystem
         public string[] OutputArr()
         {
             string[] arr = new string[14];
-            arr[0] = Code;
-            arr[1] = Department;
-            arr[2] = Code;
-            arr[3] = Title;
-            arr[4] = Description;
-            arr[5] = Credits;
-            arr[6] = string.Join(",", Prereqs);
-            arr[7] = DayBoolString();
-            arr[8] = StartTime;
-            arr[9] = EndTime;
-            arr[10] = SeatsMax;
-            arr[11] = SeatsAvail;
-            arr[12] = Professor;
-            arr[13] = ProfessorImgUrl;
+            arr[0] = Department;
+            arr[1] = Code;
+            arr[2] = Title;
+            arr[3] = Description;
+            arr[4] = Credits;
+            arr[5] = string.Join(",", Prereqs);
+            arr[6] = DayBoolString();
+            arr[7] = StartTime;
+            arr[8] = EndTime;
+            arr[9] = SeatsMax;
+            arr[10] = SeatsAvail;
+            arr[11] = Professor;
+            arr[12] = ProfessorImgUrl;
             return arr;
         }
     }

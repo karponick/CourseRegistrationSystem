@@ -425,7 +425,7 @@
             // 
             // btnValidation
             // 
-            this.btnValidation.BackColor = System.Drawing.Color.LightPink;
+            this.btnValidation.BackColor = System.Drawing.Color.LightGreen;
             this.btnValidation.Location = new System.Drawing.Point(383, 248);
             this.btnValidation.Name = "btnValidation";
             this.btnValidation.Size = new System.Drawing.Size(182, 47);

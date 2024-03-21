@@ -9,7 +9,7 @@ namespace CourseRegistrationSystem
 {
     public partial class frmMain : Form
     {
-        private bool validation = false;
+        private bool validation = true;
         private readonly Dictionary<string, Course> courseList = new Dictionary<string, Course>();
         private readonly Dictionary<string, Course> newCourseList = new Dictionary<string, Course>(); // For file outpu
         private List<string> prereqList;
@@ -28,7 +28,7 @@ namespace CourseRegistrationSystem
                     // the file is reached.
                     while ((line = sr.ReadLine()) != null)
                     {
-                        if (line == "---")
+                        if (line == string.Empty)
                         {
                             CreateCourse(courseData);
                             courseData.Clear();
@@ -98,7 +98,7 @@ namespace CourseRegistrationSystem
                 lblDep.ForeColor = Color.Red;
                 noErrors = false;
             }
-            else { comboDepartment.BackColor = default; }
+            else { lblDep.ForeColor = default; }
 
             // Empty checks for: Code, Title, Description, maxseats, availseats, credits 
             List<TextBox> txtList = new List<TextBox>
@@ -142,7 +142,7 @@ namespace CourseRegistrationSystem
             {
                 Course course = new Course
                 {
-                    Department = (string)comboDepartment.SelectedItem,
+                    Department = comboDepartment.GetItemText(comboDepartment.SelectedItem),
                     Code = txtCode.Text,
                     Title = txtTitle.Text,
                     Description = txtDescription.Text,
@@ -239,7 +239,8 @@ namespace CourseRegistrationSystem
         {
             if (comboPrereqs.SelectedIndex >= 0) 
             {
-                string code = comboPrereqs.Items[comboPrereqs.SelectedIndex].ToString();
+                //string code = comboPrereqs.Items[comboPrereqs.SelectedIndex].ToString();
+                string code = comboPrereqs.GetItemText(comboPrereqs.SelectedItem);
                 if (!prereqList.Contains(code))
                 {
                     prereqList.Add(code);
@@ -267,7 +268,7 @@ namespace CourseRegistrationSystem
                                 }
                                 else
                                 {
-                                    sw.WriteLine();
+                                    sw.WriteLine("-");
                                 }
                             }
                         }

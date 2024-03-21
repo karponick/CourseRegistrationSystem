@@ -322,7 +322,9 @@ namespace CourseRegistrationSystem
                 frmRegistration parent = parentForm as frmRegistration;
                 if (parent.AddCourse(selectedCourse)) // if added successfully
                 {
-                    selectedCourse.SeatsAvail = (availableSeats--).ToString();
+                    selectedCourse.SeatsAvail = (--availableSeats).ToString();
+                    ClearDataGrid();
+                    PopulateDataGrid();
                 }
             }
             else

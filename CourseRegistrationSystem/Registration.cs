@@ -19,6 +19,12 @@ namespace CourseRegistrationSystem
             this.semester = semester;
             this.courseList = courseList;
             currentDateTime = DateTime.Now;
+
+
+            foreach (string code in courseList.Keys)
+            {
+                courseList[code].Roster.Add(student.Id);
+            }
         }
 
         public Student Student { get { return student; } }

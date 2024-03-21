@@ -87,7 +87,13 @@ namespace CourseRegistrationSystem
 
         private void btnSubmit_Click(object sender, EventArgs e)
         {
-            Registration newRegistration = new Registration(txtID.Text, txtName.Text, (string)cmbSemester.SelectedItem, registeredCourses);
+            Registration newRegistration = new Registration
+                (
+                    txtID.Text, 
+                    txtName.Text, 
+                    cmbSemester.GetItemText(cmbSemester.SelectedItem), 
+                    registeredCourses
+                );
         }
         private void lstCourses_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
