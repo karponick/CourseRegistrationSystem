@@ -136,6 +136,7 @@
             // 
             // lstCourses
             // 
+            this.lstCourses.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lstCourses.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.hdrCode,
             this.hdrDays,
@@ -143,6 +144,7 @@
             this.hdrProf});
             this.lstCourses.FullRowSelect = true;
             this.lstCourses.GridLines = true;
+            this.lstCourses.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.lstCourses.HideSelection = false;
             this.lstCourses.Location = new System.Drawing.Point(264, 6);
             this.lstCourses.Name = "lstCourses";
@@ -160,7 +162,7 @@
             // hdrDays
             // 
             this.hdrDays.Text = "Days";
-            this.hdrDays.Width = 250;
+            this.hdrDays.Width = 245;
             // 
             // hdrTimes
             // 
@@ -170,7 +172,7 @@
             // hdrProf
             // 
             this.hdrProf.Text = "Professor";
-            this.hdrProf.Width = 150;
+            this.hdrProf.Width = 135;
             // 
             // lblCost
             // 

@@ -28,12 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.listViewCourses = new System.Windows.Forms.ListView();
-            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.datGrdVwCourses = new System.Windows.Forms.DataGridView();
             this.code = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.title = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -48,53 +42,6 @@
             this.lblShowing = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.datGrdVwCourses)).BeginInit();
             this.SuspendLayout();
-            // 
-            // listViewCourses
-            // 
-            this.listViewCourses.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1,
-            this.columnHeader2,
-            this.columnHeader3,
-            this.columnHeader4,
-            this.columnHeader5});
-            this.listViewCourses.FullRowSelect = true;
-            this.listViewCourses.GridLines = true;
-            this.listViewCourses.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.listViewCourses.HideSelection = false;
-            this.listViewCourses.Location = new System.Drawing.Point(20, 20);
-            this.listViewCourses.MultiSelect = false;
-            this.listViewCourses.Name = "listViewCourses";
-            this.listViewCourses.Size = new System.Drawing.Size(526, 328);
-            this.listViewCourses.TabIndex = 0;
-            this.listViewCourses.TabStop = false;
-            this.listViewCourses.UseCompatibleStateImageBehavior = false;
-            this.listViewCourses.View = System.Windows.Forms.View.Details;
-            this.listViewCourses.Visible = false;
-            // 
-            // columnHeader1
-            // 
-            this.columnHeader1.Text = "Code";
-            this.columnHeader1.Width = 51;
-            // 
-            // columnHeader2
-            // 
-            this.columnHeader2.Text = "Title";
-            this.columnHeader2.Width = 141;
-            // 
-            // columnHeader3
-            // 
-            this.columnHeader3.Text = "Meeting Times";
-            this.columnHeader3.Width = 108;
-            // 
-            // columnHeader4
-            // 
-            this.columnHeader4.Text = "Capacity";
-            this.columnHeader4.Width = 56;
-            // 
-            // columnHeader5
-            // 
-            this.columnHeader5.Text = "Professor";
-            this.columnHeader5.Width = 165;
             // 
             // datGrdVwCourses
             // 
@@ -243,7 +190,6 @@
             this.Controls.Add(this.cmbFilter);
             this.Controls.Add(this.lblFilter);
             this.Controls.Add(this.datGrdVwCourses);
-            this.Controls.Add(this.listViewCourses);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -257,13 +203,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.ListView listViewCourses;
-        private System.Windows.Forms.ColumnHeader columnHeader1;
-        private System.Windows.Forms.ColumnHeader columnHeader2;
-        private System.Windows.Forms.ColumnHeader columnHeader3;
-        private System.Windows.Forms.ColumnHeader columnHeader4;
-        private System.Windows.Forms.ColumnHeader columnHeader5;
         private System.Windows.Forms.DataGridView datGrdVwCourses;
         private System.Windows.Forms.DataGridViewTextBoxColumn code;
         private System.Windows.Forms.DataGridViewTextBoxColumn title;

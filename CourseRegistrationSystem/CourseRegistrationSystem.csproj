@@ -14,7 +14,7 @@
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -46,39 +46,46 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Course.cs" />
-    <Compile Include="frmCourseListing.cs">
+    <Compile Include="Model\Course.cs" />
+    <Compile Include="Controller\DatabaseController.cs" />
+    <Compile Include="View\DetailPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="View\frmCourseListing.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmCourseListing.Designer.cs">
+    <Compile Include="View\frmCourseListing.Designer.cs">
       <DependentUpon>frmCourseListing.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmMain.cs">
+    <Compile Include="View\frmMain.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmMain.Designer.cs">
+    <Compile Include="View\frmMain.Designer.cs">
       <DependentUpon>frmMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmRegistration.cs">
+    <Compile Include="View\frmRegistration.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmRegistration.Designer.cs">
+    <Compile Include="View\frmRegistration.Designer.cs">
       <DependentUpon>frmRegistration.cs</DependentUpon>
     </Compile>
-    <Compile Include="MeetingTimes.cs">
+    <Compile Include="View\MeetingPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="View\MeetingPanelV2.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Registration.cs" />
-    <Compile Include="Student.cs" />
-    <EmbeddedResource Include="frmCourseListing.resx">
+    <Compile Include="Model\Registration.cs" />
+    <Compile Include="Model\Student.cs" />
+    <EmbeddedResource Include="View\frmCourseListing.resx">
       <DependentUpon>frmCourseListing.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmMain.resx">
+    <EmbeddedResource Include="View\frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmRegistration.resx">
+    <EmbeddedResource Include="View\frmRegistration.resx">
       <DependentUpon>frmRegistration.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -105,11 +112,15 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="course_list.txt">
+    <Content Include="Resources\course_list.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Resources\Icon.ico" />
-    <Content Include="test_image_urls.txt" />
+    <Content Include="Resources\CRSDB.accdb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\test_image_urls.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

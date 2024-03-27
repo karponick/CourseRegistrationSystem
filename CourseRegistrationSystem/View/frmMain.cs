@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.OleDb;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -12,85 +14,41 @@ namespace CourseRegistrationSystem
         private bool validation = true;
         private readonly Dictionary<string, Course> courseList = new Dictionary<string, Course>();
         private readonly Dictionary<string, Course> newCourseList = new Dictionary<string, Course>(); // For file outpu
-        private List<string> prereqList;
+        private readonly List<string> prereqList = new List<string>();
+        private readonly DatabaseController dbc;
+
+
         // Constructor
         public frmMain()
         {
             InitializeComponent();
-            prereqList = new List<string>();
-            List<string> courseData = new List<string>();
-            try
+            dbc = new DatabaseController();
+
+            // Database stuff
+            DataTable tableCourses = dbc.GetTable("Courses"); // Get existing data from db
+            foreach (DataRow row in tableCourses.Rows)
             {
-                using (StreamReader sr = new StreamReader("course_list.txt"))
+                List<string> courseData = new List<string>();
+                foreach (object col in row.ItemArray)
                 {
-                    string line;
-                    // Read and display lines from the file until the end of
-                    // the file is reached.
-                    while ((line = sr.ReadLine()) != null)
-                    {
-                        if (line == string.Empty)
-                        {
-                            CreateCourse(courseData);
-                            courseData.Clear();
-                        }
-                        else { courseData.Add(line); }
-                    }
-                    CreateCourse(courseData);
+                    courseData.Add(col.ToString());
                 }
-            }
-            catch (Exception e)
-            {
-                // Let the user know what went wrong.
-                Console.WriteLine("Error reading file:");
-                Console.WriteLine(e.Message);
+                CreateCourse(courseData); // Create course and add to list
             }
         }
 
-        // Used for creating courses from text file
+        // Methods
         public void CreateCourse(List<string> data)
         {
-            Course course = new Course
-            {
-                Department = data[0],
-                Code = data[1],
-                Title = data[2],
-                Description = data[3],
-                Credits = data[4],
-                Prereqs = data[5].Split(',').ToList(),
-                StartTime = data[7],
-                EndTime = data[8],
-                SeatsMax = data[9],
-                SeatsAvail = data[10],
-                Professor = data[11],
-                ProfessorImgUrl = data[12],
-            };
-            // Days
-            for (int i = 0; i < 5; i++)
-            {
-                string dayString = data[6];
-                if (dayString[i] == 'T') { course.Days[i] = true; }
-                else if (dayString[i] == 'F') { course.Days[i] = false; }
-            }
-            courseList[course.Code] = course;
-            comboPrereqs.Items.Add(course.Code);
+            string code = data[0];
+            courseList[code] = new Course(data);
+            comboPrereqs.Items.Add(code);
         }
 
-        // Events
-        private void btnSubmit_Click(object sender, EventArgs e)
+        private bool InputValidatoin()
         {
-            bool noErrors = true;
-            lblStatus.Text = string.Empty;
-
-            // if course code is already in list, then return (dont submit)
-            if (courseList.ContainsKey(txtCode.Text)) 
-            {
-                lblStatus.Text = "Error: Course with this code already exists in list.";
-                lblStatus.ForeColor = Color.Red;
-                return; 
-            }
-            
-
             // Input validation
+            bool noErrors = true;
 
             // Department
             if (comboDepartment.SelectedIndex == -1)
@@ -119,8 +77,8 @@ namespace CourseRegistrationSystem
             }
 
             // Seats (Max and Avail)
-            if (! int.TryParse(txtSeatsMax.Text, out int maxSeats) ||
-                ! int.TryParse(txtSeatsAvail.Text, out int availSeats) ||
+            if (!int.TryParse(txtSeatsMax.Text, out int maxSeats) ||
+                !int.TryParse(txtSeatsAvail.Text, out int availSeats) ||
                 availSeats > maxSeats)
             {
                 txtSeatsMax.BackColor = Color.LightPink;
@@ -136,6 +94,24 @@ namespace CourseRegistrationSystem
             // Time (Start and End)
 
             // Image url
+
+            return noErrors;
+        }
+
+        // Events
+        private void btnSubmit_Click(object sender, EventArgs e)
+        {
+            lblStatus.Text = string.Empty;
+
+            // if course code is already in list, then return (dont submit)
+            if (courseList.ContainsKey(txtCode.Text)) 
+            {
+                lblStatus.Text = "Error: Course with this code already exists in list.";
+                lblStatus.ForeColor = Color.Red;
+                return; 
+            }
+            // Submission does validation checks and collects all the data that was input in controls
+            bool noErrors = InputValidatoin();
 
             // If there are no input errors, gather info and submit new course
             if (noErrors || !validation)
@@ -167,13 +143,12 @@ namespace CourseRegistrationSystem
                 newCourseList[course.Code] = course;
                 lblStatus.Text = "Course submitted successfully.";
                 lblStatus.ForeColor = Color.Green;
-                return;
+                dbc.UpdateTable(courseList);
             }
             else
             {
                 lblStatus.Text = "Error: Invalid data.";
                 lblStatus.ForeColor = Color.Red;
-                return;
             }
         }
 
@@ -183,9 +158,9 @@ namespace CourseRegistrationSystem
             newCourseList.ShowDialog();
         }
 
-        // Used by code, maxseats, and availseats textboxes
         private void Numeric_KeyPress(object sender, KeyPressEventArgs e)
         {
+            // Used by code, maxseats, and availseats textboxes
             // check if key pressed is a number
             if (!int.TryParse(e.KeyChar.ToString(), out _) && !Char.IsControl(e.KeyChar)
                 && e.KeyChar != '.')
@@ -219,7 +194,10 @@ namespace CourseRegistrationSystem
             { 
                 picProf.Load(txtProfImgUrl.Text);
                 picProf.SizeMode = PictureBoxSizeMode.StretchImage;
-            } catch { }
+            } catch (Exception) 
+            { 
+                Console.WriteLine("Image could not be loaded.");
+            }
         }
 
         private void btnValidation_Click(object sender, EventArgs e)
@@ -245,40 +223,6 @@ namespace CourseRegistrationSystem
                 {
                     prereqList.Add(code);
                     lstPrereqs.Items.Add(code);
-                }
-                
-            }
-        }
-
-        private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (newCourseList.Count > 0) {
-                try
-                {
-                    using (StreamWriter sw = new StreamWriter("course_list.txt", true))
-                    {
-                        foreach (string code in newCourseList.Keys) // for each new course
-                        {
-                            Course course = newCourseList[code];
-                            foreach (string data in course.OutputArr()) // for each data in course
-                            {
-                                if (data != string.Empty)
-                                {
-                                    sw.WriteLine(data);
-                                }
-                                else
-                                {
-                                    sw.WriteLine("-");
-                                }
-                            }
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    // Let the user know what went wrong.
-                    Console.WriteLine("Error reading file:");
-                    Console.WriteLine(ex.Message);
                 }
             }
         }
