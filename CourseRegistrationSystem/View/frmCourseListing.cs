@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace CourseRegistrationSystem
 {
@@ -66,7 +67,7 @@ namespace CourseRegistrationSystem
                 datGrdVwCourses.Rows.Add(courseInfo);
 
                 Panel meetingPanel = GetMeetingPanel(course, new Point(302, 40 * meetingTimeLabelHeightPositionModifier + 22));
-                datGrdVwCourses.Controls.Add(meetingPanel);
+                //datGrdVwCourses.Controls.Add(meetingPanel);
                 meetingTimeLabelHeightPositionModifier++;
             }
             CloseDetailPanel();

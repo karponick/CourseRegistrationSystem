@@ -515,7 +515,6 @@
             this.MinimizeBox = false;
             this.Name = "frmMain";
             this.Text = "CourseRegistrationSystem";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_FormClosing);
             this.flowDays.ResumeLayout(false);
             this.flowDays.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picProf)).EndInit();

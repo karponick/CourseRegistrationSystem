@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -133,9 +134,9 @@ namespace CourseRegistrationSystem
             meetingPanel.Populate(course.Days, course.TimeString(), null);
             lblProfessor.Text = course.Professor;
             try { picProfImg.Load(course.ProfessorImgUrl); }
-            catch (Exception ex) 
+            catch (Exception) 
             { 
-                Console.WriteLine("Image could not be loaded. " + ex.Message);
+                Console.WriteLine("Image could not be loaded.");
                 picProfImg.Image = null;
             }
             lblCapacity.Text = course.CapacityString();

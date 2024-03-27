@@ -10,8 +10,8 @@ namespace CourseRegistrationSystem
     public class Course
     {
         // Fields
-        private string department;
         private string code;
+        private string department;
         private string title;
         private string description;
         private string credits;
@@ -30,19 +30,41 @@ namespace CourseRegistrationSystem
         public Course()
         {
             days = new[]{false, false, false, false, false};
-            department = "-";
+        }
+        public Course(List<string> data)
+        {
+            code = data[0];
+            department = data[1];
+            title = data[2];
+            description = data[3];
+            credits = data[4];
+            prereqs = data[5].Split(',').ToList();
+            days = new[] { false, false, false, false, false };
+            startTime = data[7];
+            endTime = data[8];
+            seatsMax = data[9];
+            seatsAvail = data[10];
+            professor = data[11];
+            professorImgUrl = data[12];
+            
+            // Days
+            for (int i = 0; i < 5; i++)
+            {
+                string dayString = data[6];
+                if (dayString[i] == 'T') { Days[i] = true; }
+            }
         }
 
         // Properties
-        public string Department
-        {
-            get { return department; }
-            set { department = value; }
-        }
         public string Code
         {
             get { return code; }
             set { code = value; }
+        }
+        public string Department
+        {
+            get { return department; }
+            set { department = value; }
         }
         public string Title
         {
@@ -134,11 +156,11 @@ namespace CourseRegistrationSystem
         { 
             return SeatsAvail + " of " + seatsMax + " seats available."; 
         }
-        public string[] OutputArr()
+        public string[] ToArray()
         {
-            string[] arr = new string[14];
-            arr[0] = Department;
-            arr[1] = Code;
+            string[] arr = new string[13];
+            arr[0] = Code;
+            arr[1] = Department;
             arr[2] = Title;
             arr[3] = Description;
             arr[4] = Credits;
