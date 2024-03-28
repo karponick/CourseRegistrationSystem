@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controller\DatabaseControllerV2.cs" />
     <Compile Include="Model\Course.cs" />
     <Compile Include="Controller\DatabaseController.cs" />
     <Compile Include="View\DetailPanel.cs">
@@ -56,6 +57,18 @@
     </Compile>
     <Compile Include="View\frmCourseListing.Designer.cs">
       <DependentUpon>frmCourseListing.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\frmCourseRoster.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\frmCourseRoster.Designer.cs">
+      <DependentUpon>frmCourseRoster.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\frmCreateCourse.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\frmCreateCourse.Designer.cs">
+      <DependentUpon>frmCreateCourse.cs</DependentUpon>
     </Compile>
     <Compile Include="View\frmMain.cs">
       <SubType>Form</SubType>
@@ -69,6 +82,12 @@
     <Compile Include="View\frmRegistration.Designer.cs">
       <DependentUpon>frmRegistration.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\frmStudentCourses.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\frmStudentCourses.Designer.cs">
+      <DependentUpon>frmStudentCourses.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\MeetingPanel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -81,6 +100,12 @@
     <Compile Include="Model\Student.cs" />
     <EmbeddedResource Include="View\frmCourseListing.resx">
       <DependentUpon>frmCourseListing.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\frmCourseRoster.resx">
+      <DependentUpon>frmCourseRoster.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\frmCreateCourse.resx">
+      <DependentUpon>frmCreateCourse.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
@@ -98,6 +123,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="View\frmStudentCourses.resx">
+      <DependentUpon>frmStudentCourses.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

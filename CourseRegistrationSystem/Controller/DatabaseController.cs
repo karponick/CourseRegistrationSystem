@@ -9,7 +9,7 @@ using System.Data.SqlClient;
 
 namespace CourseRegistrationSystem
 {
-    internal class DatabaseController
+    public class DatabaseController
     {
         // fields
         OleDbConnection myConnection;
@@ -46,16 +46,16 @@ namespace CourseRegistrationSystem
             return dataSet.Tables[tableName];
         }
 
-        public void UpdateTable(Dictionary<string, Course> courseList)
+        public void UpdateTable(string tableName, Dictionary<string, Course> courseList)
         {
             try
             {
                 myConnection.Open();
+                DataTable table = dataSet.Tables[tableName]; // Get table
+                string[] pKeys = new string[table.Rows.Count]; // Get list of primary keys
                 foreach (string code in courseList.Keys)
                 {
                     Course course = courseList[code];
-                    DataTable table = dataSet.Tables["Courses"]; // Get table
-                    string[] pKeys = new string[table.Rows.Count]; // Get list of primary keys
                     for (int i = 0; i < table.Rows.Count; i++)
                     {
                         pKeys[i] = table.Rows[i][0].ToString();
@@ -74,7 +74,7 @@ namespace CourseRegistrationSystem
                         // If course is already in course, update the row
                         if (key == code)
                         {
-                            UpdateRow(table.Rows[i], courseList[code].ToArray());
+                            UpdateDataRow(table.Rows[i], courseList[code].ToArray());
                             newEntry = false;
                             break;
                         }
@@ -82,12 +82,12 @@ namespace CourseRegistrationSystem
 
                     if (newEntry) // If course is not in table, create a new row
                     {
-                        InsertRow(table, colHeaders, courseList[code].ToArray());
+                        InsertDataRow(table, colHeaders, courseList[code].ToArray());
                     }
                     
                 }
                 OleDbCommandBuilder builder = new OleDbCommandBuilder(myAdapter);
-                myAdapter.Update(dataSet, "Courses");
+                myAdapter.Update(dataSet, tableName);
             }
             catch (OleDbException ex) { Console.WriteLine(ex.Message); }
             finally
@@ -96,7 +96,7 @@ namespace CourseRegistrationSystem
             }
         }
 
-        public void InsertRow(DataTable table, string[] colHeaders, string[] newRow)
+        public void InsertDataRow(DataTable table, string[] colHeaders, string[] newRow)
         {
             // Creates a new row and inserts data for each column header
             DataRow row = table.NewRow();
@@ -106,7 +106,7 @@ namespace CourseRegistrationSystem
             }
             table.Rows.Add(row);
         }
-        public void UpdateRow(DataRow row, string[] updatedRow)
+        public void UpdateDataRow(DataRow row, string[] updatedRow)
         {
             // Updates an existing row with any new data
             for (int i = 0; i < updatedRow.Length - 1; i++)
@@ -117,9 +117,65 @@ namespace CourseRegistrationSystem
                 }
             }
         }
-        public void DeleteRow()
-        {
 
+        public List<string> GetStudentCourses(string studentID)
+        {
+            string tableName = "StudentCourses";
+            myCommand.CommandText = "SELECT Course_ID FROM Registration WHERE Student_ID = '" + studentID + "'";
+            dataSet = new DataSet();
+            try
+            {
+                myConnection.Open();
+                myAdapter.Fill(dataSet, tableName);
+            }
+            catch (OleDbException ex) { Console.WriteLine(ex.Message); }
+            finally { myConnection.Close(); }
+
+            List<string> courseCodes = new List<string>();
+            foreach (DataRow row in dataSet.Tables[tableName].Rows)
+            {
+                courseCodes.Add(row.ItemArray[0].ToString());
+            }
+            return courseCodes;
+        }
+
+        public List<string> GetStudentIDs()
+        {
+            string tableName = "Student";
+            myCommand.CommandText = "SELECT Student_ID FROM Student";
+            dataSet = new DataSet();
+            try
+            {
+                myConnection.Open();
+                myAdapter.Fill(dataSet, tableName);
+            }
+            catch (OleDbException ex) { Console.WriteLine(ex.Message); }
+            finally { myConnection.Close(); }
+
+            List<string> studentIDs = new List<string>();
+            foreach (DataRow row in dataSet.Tables[tableName].Rows)
+            {
+                studentIDs.Add(row.ItemArray[0].ToString());
+            }
+            return studentIDs;
+        }
+
+        public void GetCourse(Dictionary<string, string> newData)
+        {
+            myCommand.CommandText = "SELECT * FROM Course  WHERE Code = '" + newData["Code"] + "'";
+            dataSet = new DataSet();
+            myAdapter.Fill(dataSet, "Course");
+            // Store the Course data in a row object
+            DataTable table = dataSet.Tables["Course"];
+            DataRow row = table.Rows[0];
+            // Convert DataRow object ot a dictionary
+            Dictionary<string, string> oldData = new Dictionary<string, string>();
+            int i = 0;
+            foreach (object col in row.ItemArray)
+            {
+                oldData[table.Columns[i].ColumnName] = col.ToString();
+                i++;
+            }
         }
     }
 }
