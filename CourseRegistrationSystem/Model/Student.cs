@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CourseRegistrationSystem
 {
-    internal class Student
+    public class Student
     {
         private string id, name;
         public Student(string id, string name)

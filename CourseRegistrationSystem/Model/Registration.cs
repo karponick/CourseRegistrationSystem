@@ -6,30 +6,29 @@ using System.Threading.Tasks;
 
 namespace CourseRegistrationSystem
 {
-    internal class Registration
+    public class Registration
     {
         private readonly Student student;
         private readonly string semester;
-        private readonly Dictionary<string, Course> courseList = new Dictionary<string, Course>();
+        private readonly Course course;
         private readonly DateTime currentDateTime;
 
-        public Registration(string studentID, string name, string semester, Dictionary<string, Course> courseList)
+        public Registration(string studentID, string studentName, string semester, Course course)
         {
-            student = new Student(studentID, name);
+            student = new Student(studentID, studentName);
             this.semester = semester;
-            this.courseList = courseList;
+            this.course = course;
             currentDateTime = DateTime.Now;
-
-
-            foreach (string code in courseList.Keys)
-            {
-                courseList[code].Roster.Add(student.Id);
-            }
         }
 
         public Student Student { get { return student; } }
         public string Semester { get { return semester; } }
-        public Dictionary<string, Course> CourseList { get { return courseList; } }
         public DateTime CurrentDateTime { get { return currentDateTime; } }
+        public string[] ToArray()
+        {
+            Random rand = new Random();
+            string registration_id = student.Id + course.Code + rand.Next(10000).ToString();
+            return new string[] { registration_id, student.Id, course.Code, DateTime.Now.ToString(), semester};
+        }
     }
 }

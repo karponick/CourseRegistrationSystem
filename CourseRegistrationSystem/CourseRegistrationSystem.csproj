@@ -88,6 +88,12 @@
     <Compile Include="View\frmStudentCourses.Designer.cs">
       <DependentUpon>frmStudentCourses.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\frmStudentList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\frmStudentList.Designer.cs">
+      <DependentUpon>frmStudentList.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\MeetingPanel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -125,6 +131,9 @@
     </Compile>
     <EmbeddedResource Include="View\frmStudentCourses.resx">
       <DependentUpon>frmStudentCourses.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\frmStudentList.resx">
+      <DependentUpon>frmStudentList.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

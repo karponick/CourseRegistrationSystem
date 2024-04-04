@@ -24,7 +24,6 @@ namespace CourseRegistrationSystem
         private string professor;
         private string professorImgUrl;
 
-        private readonly List<string> roster = new List<string>();
 
         // Constructor
         public Course()
@@ -121,7 +120,6 @@ namespace CourseRegistrationSystem
             get { return professorImgUrl; }
             set { professorImgUrl = value; }
         }
-        public List <string> Roster { get { return roster; } }
 
         // Methods
         public string DayString()

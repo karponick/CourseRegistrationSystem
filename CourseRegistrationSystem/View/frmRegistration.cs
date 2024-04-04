@@ -90,13 +90,18 @@ namespace CourseRegistrationSystem
 
         private void btnSubmit_Click(object sender, EventArgs e)
         {
-            Registration newRegistration = new Registration
-                (
-                    txtID.Text, 
-                    txtName.Text, 
-                    cmbSemester.GetItemText(cmbSemester.SelectedItem), 
-                    registeredCourses
-                );
+            foreach (string code in registeredCourses.Keys)
+            {
+                Registration newRegistration = new Registration
+                    (
+                        txtID.Text,
+                        txtName.Text,
+                        cmbSemester.GetItemText(cmbSemester.SelectedItem),
+                        registeredCourses[code]
+                    );
+                dbc.AddRegistration(newRegistration);
+                dbc.ModifyCourse(registeredCourses[code].ToArray());
+            }
             
         }
         private void lstCourses_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)

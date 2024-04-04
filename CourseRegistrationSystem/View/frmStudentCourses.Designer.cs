@@ -28,15 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgvCourses = new System.Windows.Forms.DataGridView();
-            this.lblStudent = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.btnClearFilter = new System.Windows.Forms.Button();
-            this.cmbSemester = new System.Windows.Forms.ComboBox();
-            this.btnSearch = new System.Windows.Forms.Button();
-            this.txtStudentID = new System.Windows.Forms.TextBox();
-            this.lblStudentID = new System.Windows.Forms.Label();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -50,7 +43,16 @@
             this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label1 = new System.Windows.Forms.Label();
+            this.btnClearFilter = new System.Windows.Forms.Button();
+            this.cmbSemester = new System.Windows.Forms.ComboBox();
+            this.btnSearch = new System.Windows.Forms.Button();
+            this.txtStudentID = new System.Windows.Forms.TextBox();
+            this.lblStudentID = new System.Windows.Forms.Label();
+            this.btnViewStudents = new System.Windows.Forms.Button();
+            this.picImage = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCourses)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picImage)).BeginInit();
             this.SuspendLayout();
             // 
             // dgvCourses
@@ -75,84 +77,18 @@
             this.Column11,
             this.Column12,
             this.Column13});
-            this.dgvCourses.Location = new System.Drawing.Point(12, 29);
+            this.dgvCourses.Location = new System.Drawing.Point(12, 12);
             this.dgvCourses.MultiSelect = false;
             this.dgvCourses.Name = "dgvCourses";
             this.dgvCourses.ReadOnly = true;
             this.dgvCourses.RowHeadersVisible = false;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.Transparent;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
-            this.dgvCourses.RowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.Transparent;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
+            this.dgvCourses.RowsDefaultCellStyle = dataGridViewCellStyle2;
             this.dgvCourses.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvCourses.Size = new System.Drawing.Size(628, 409);
             this.dgvCourses.TabIndex = 0;
-            // 
-            // lblStudent
-            // 
-            this.lblStudent.AutoSize = true;
-            this.lblStudent.Location = new System.Drawing.Point(13, 13);
-            this.lblStudent.Name = "lblStudent";
-            this.lblStudent.Size = new System.Drawing.Size(91, 13);
-            this.lblStudent.TabIndex = 1;
-            this.lblStudent.Text = "Student Name/ID";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(643, 137);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(90, 13);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Filter by Semester";
-            // 
-            // btnClearFilter
-            // 
-            this.btnClearFilter.Location = new System.Drawing.Point(646, 180);
-            this.btnClearFilter.Name = "btnClearFilter";
-            this.btnClearFilter.Size = new System.Drawing.Size(121, 23);
-            this.btnClearFilter.TabIndex = 3;
-            this.btnClearFilter.TabStop = false;
-            this.btnClearFilter.Text = "Clear Filter";
-            this.btnClearFilter.UseVisualStyleBackColor = true;
-            // 
-            // cmbSemester
-            // 
-            this.cmbSemester.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbSemester.FormattingEnabled = true;
-            this.cmbSemester.Location = new System.Drawing.Point(646, 153);
-            this.cmbSemester.Name = "cmbSemester";
-            this.cmbSemester.Size = new System.Drawing.Size(121, 21);
-            this.cmbSemester.TabIndex = 4;
-            this.cmbSemester.TabStop = false;
-            this.cmbSemester.SelectedIndexChanged += new System.EventHandler(this.cmbSemester_SelectedIndexChanged);
-            // 
-            // btnSearch
-            // 
-            this.btnSearch.Location = new System.Drawing.Point(646, 71);
-            this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(121, 23);
-            this.btnSearch.TabIndex = 5;
-            this.btnSearch.TabStop = false;
-            this.btnSearch.Text = "Search";
-            this.btnSearch.UseVisualStyleBackColor = true;
-            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
-            // 
-            // txtStudentID
-            // 
-            this.txtStudentID.Location = new System.Drawing.Point(646, 45);
-            this.txtStudentID.Name = "txtStudentID";
-            this.txtStudentID.Size = new System.Drawing.Size(121, 20);
-            this.txtStudentID.TabIndex = 6;
-            this.txtStudentID.TabStop = false;
-            // 
-            // lblStudentID
-            // 
-            this.lblStudentID.AutoSize = true;
-            this.lblStudentID.Location = new System.Drawing.Point(643, 29);
-            this.lblStudentID.Name = "lblStudentID";
-            this.lblStudentID.Size = new System.Drawing.Size(58, 13);
-            this.lblStudentID.TabIndex = 7;
-            this.lblStudentID.Text = "Student ID";
+            this.dgvCourses.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCourses_CellMouseEnter);
             // 
             // Column1
             // 
@@ -245,24 +181,110 @@
             this.Column13.ReadOnly = true;
             this.Column13.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(643, 120);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(90, 13);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "Filter by Semester";
+            // 
+            // btnClearFilter
+            // 
+            this.btnClearFilter.Location = new System.Drawing.Point(646, 163);
+            this.btnClearFilter.Name = "btnClearFilter";
+            this.btnClearFilter.Size = new System.Drawing.Size(121, 23);
+            this.btnClearFilter.TabIndex = 3;
+            this.btnClearFilter.TabStop = false;
+            this.btnClearFilter.Text = "Clear Filter";
+            this.btnClearFilter.UseVisualStyleBackColor = true;
+            // 
+            // cmbSemester
+            // 
+            this.cmbSemester.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbSemester.FormattingEnabled = true;
+            this.cmbSemester.Items.AddRange(new object[] {
+            "Fall",
+            "Spring",
+            "Summer I",
+            "Summer II"});
+            this.cmbSemester.Location = new System.Drawing.Point(646, 136);
+            this.cmbSemester.Name = "cmbSemester";
+            this.cmbSemester.Size = new System.Drawing.Size(121, 21);
+            this.cmbSemester.TabIndex = 4;
+            this.cmbSemester.TabStop = false;
+            this.cmbSemester.SelectedIndexChanged += new System.EventHandler(this.cmbSemester_SelectedIndexChanged);
+            // 
+            // btnSearch
+            // 
+            this.btnSearch.Location = new System.Drawing.Point(646, 54);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.Size = new System.Drawing.Size(121, 23);
+            this.btnSearch.TabIndex = 5;
+            this.btnSearch.TabStop = false;
+            this.btnSearch.Text = "Search";
+            this.btnSearch.UseVisualStyleBackColor = true;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
+            // 
+            // txtStudentID
+            // 
+            this.txtStudentID.Location = new System.Drawing.Point(646, 28);
+            this.txtStudentID.Name = "txtStudentID";
+            this.txtStudentID.Size = new System.Drawing.Size(121, 20);
+            this.txtStudentID.TabIndex = 6;
+            this.txtStudentID.TabStop = false;
+            // 
+            // lblStudentID
+            // 
+            this.lblStudentID.AutoSize = true;
+            this.lblStudentID.Location = new System.Drawing.Point(643, 12);
+            this.lblStudentID.Name = "lblStudentID";
+            this.lblStudentID.Size = new System.Drawing.Size(58, 13);
+            this.lblStudentID.TabIndex = 7;
+            this.lblStudentID.Text = "Student ID";
+            // 
+            // btnViewStudents
+            // 
+            this.btnViewStudents.BackColor = System.Drawing.Color.LightPink;
+            this.btnViewStudents.Location = new System.Drawing.Point(647, 202);
+            this.btnViewStudents.Name = "btnViewStudents";
+            this.btnViewStudents.Size = new System.Drawing.Size(120, 64);
+            this.btnViewStudents.TabIndex = 8;
+            this.btnViewStudents.Text = "View Students";
+            this.btnViewStudents.UseVisualStyleBackColor = false;
+            this.btnViewStudents.Click += new System.EventHandler(this.btnViewStudents_Click);
+            // 
+            // picImage
+            // 
+            this.picImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.picImage.Location = new System.Drawing.Point(647, 301);
+            this.picImage.Name = "picImage";
+            this.picImage.Size = new System.Drawing.Size(120, 120);
+            this.picImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picImage.TabIndex = 9;
+            this.picImage.TabStop = false;
+            // 
             // frmStudentCourses
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(774, 450);
+            this.ClientSize = new System.Drawing.Size(774, 433);
+            this.Controls.Add(this.picImage);
+            this.Controls.Add(this.btnViewStudents);
             this.Controls.Add(this.lblStudentID);
             this.Controls.Add(this.txtStudentID);
             this.Controls.Add(this.btnSearch);
             this.Controls.Add(this.cmbSemester);
             this.Controls.Add(this.btnClearFilter);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.lblStudent);
             this.Controls.Add(this.dgvCourses);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmStudentCourses";
             this.Text = "Student Courses";
             ((System.ComponentModel.ISupportInitialize)(this.dgvCourses)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picImage)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -271,7 +293,6 @@
         #endregion
 
         private System.Windows.Forms.DataGridView dgvCourses;
-        private System.Windows.Forms.Label lblStudent;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnClearFilter;
         private System.Windows.Forms.ComboBox cmbSemester;
@@ -291,5 +312,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column11;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column12;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column13;
+        private System.Windows.Forms.Button btnViewStudents;
+        private System.Windows.Forms.PictureBox picImage;
     }
 }

@@ -37,7 +37,7 @@ namespace CourseRegistrationSystem
             page = 0;
             maxPages = 0;
             // Create panel for course details
-            detailPanel = new DetailPanel(this);
+            detailPanel = new DetailPanel(this, dbc);
             Controls.Add(detailPanel);
 
             // Add all course data to datagrid
@@ -113,7 +113,7 @@ namespace CourseRegistrationSystem
                 DataGridViewRow selectedItem = dgvCourses.SelectedRows[0];
                 string selectedCode = selectedItem.Cells[0].Value.ToString();
                 selectedCourse = courseList[selectedCode];
-                detailPanel.Populate(selectedCourse, forRegistration);
+                detailPanel.Populate(selectedCourse);
 
                 // Enable modification buttons 
                 if (forRegistration)

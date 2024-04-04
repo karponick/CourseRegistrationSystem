@@ -61,10 +61,11 @@ namespace CourseRegistrationSystem
             }
             return courseList;
         }
-        public List<string> GetStudentCourseCodes(string studentID)
+        public List<string> GetStudentCourseCodes(string studentID, string semester)
         {
             string tableName = "StudentCourses";
-            myCommand.CommandText = "SELECT Course_ID FROM Registration WHERE Student_ID = '" + studentID + "'";
+            myCommand.CommandText = "SELECT Code FROM Registration WHERE Student_ID = '" + studentID + "'";
+            if (semester != null) { myCommand.CommandText += " AND Semester = '" + semester + "'"; }
             dataSet = new DataSet();
             try
             {
@@ -141,6 +142,45 @@ namespace CourseRegistrationSystem
             {
                 myConnection.Close();
             }
+        }
+
+        public DataView GetAllStudents()
+        {
+            dataSet = new DataSet();
+            try
+            {
+                myConnection.Open();
+                myCommand.CommandText = "SELECT * FROM Student";
+                myAdapter.Fill(dataSet, "Student");
+            }
+            catch (OleDbException ex) { Console.WriteLine(ex.Message); }
+            finally { myConnection.Close(); }
+            return new DataView(dataSet.Tables["Student"]);
+        }
+        public DataView GetCourseRoster(string code)
+        {
+            dataSet = new DataSet();
+            try
+            {
+                myConnection.Open();
+                myCommand.CommandText = "SELECT DISTINCT s.Student_ID, s.Student_Name FROM Student s INNER JOIN Registration r on s.Student_ID = r.Student_ID WHERE Code = '" + code + "'";
+                myAdapter.Fill(dataSet, "Student");
+            }
+            catch (OleDbException ex) { Console.WriteLine(ex.Message); }
+            finally { myConnection.Close(); }
+            return new DataView(dataSet.Tables["Student"]);
+        }
+
+        public void AddRegistration(Registration registration)
+        {
+            try
+            {
+                myConnection.Open();
+                myCommand.CommandText = "INSERT INTO Registration VALUES ('" + string.Join("','", registration.ToArray()) + "')";
+                myCommand.ExecuteNonQuery();
+            }
+            catch (OleDbException ex) { Console.WriteLine(ex.Message); }
+            finally { myConnection.Close(); }
         }
     }
 }
