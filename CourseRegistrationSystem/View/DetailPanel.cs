@@ -15,13 +15,20 @@ namespace CourseRegistrationSystem
         private readonly Label lblCode, lblTitle, lblDescription, lblPrereqs, lblProfessor, lblCapacity, lblCredits;
         private readonly MeetingPanel meetingPanel;
         private readonly PictureBox picProfImg;
-        private readonly Button btnClose, btnAdd;
+        private readonly Button btnClose, btnRoster;
         private readonly Form parentForm;
+        readonly DatabaseControllerV2 dbc;
 
         // Constructor
-        public DetailPanel(Form parentForm)
+        public DetailPanel(Form parentForm, DatabaseControllerV2 dbc)
         {
+            Size = new Size(400, 370);
+            Location = new Point(350, 33);//(312, 13),
+            BackColor = Color.LightGray;
+            BorderStyle = BorderStyle.FixedSingle;
+            Visible = false;
             this.parentForm = parentForm;
+            this.dbc = dbc;
             // PANEL IS 400x370
 
             // All controls for details within details panel
@@ -85,20 +92,20 @@ namespace CourseRegistrationSystem
             btnClose = new Button
             {
                 Text = "Close",
+                Size = new Size(94, 20),
                 Location = new Point(10, 340),
                 BackColor = Color.LightBlue
             };
             btnClose.Click += btnClose_Click;
 
-            btnAdd = new Button
+            btnRoster = new Button
             {
-                Text = "Add Course",
-                Size = new Size(94, 20),
+                Text = "Roster",
+                Size = new Size(95, 20),
                 Location = new Point(115, 340),
-                BackColor = Color.LightGreen,
-                Visible = false
+                BackColor = Color.Yellow
             };
-            btnAdd.Click += btnAdd_Click;
+            btnRoster.Click += btnRoster_Click;
 
             // Add all controls to panel
             Controls.Add(lblCode);
@@ -111,7 +118,7 @@ namespace CourseRegistrationSystem
             Controls.Add(lblCapacity);
             Controls.Add(lblCredits);
             Controls.Add(btnClose);
-            Controls.Add(btnAdd);
+            Controls.Add(btnRoster);
 
             // label properties
             foreach (Label label in Controls.OfType<Label>())
@@ -122,7 +129,7 @@ namespace CourseRegistrationSystem
             }
         }
 
-        public void Populate(Course course, bool forRegistration)
+        public void Populate(Course course)
         {
             // PANEL IS 400x370
 
@@ -142,21 +149,9 @@ namespace CourseRegistrationSystem
             lblCapacity.Text = course.CapacityString();
             lblCredits.Text = course.Credits + " credits";
 
-
             foreach (Control control in Controls)
             {
                 control.Visible = true;
-            }
-
-            if (forRegistration)
-            {
-                btnClose.Size = new Size(95, 20);
-                btnAdd.Visible = true;
-            }
-            else
-            {
-                btnClose.Size = new Size(199, 20);
-                btnAdd.Visible = false;
             }
             // Make course detail panel visible
             Visible = true;
@@ -178,10 +173,11 @@ namespace CourseRegistrationSystem
             frmCourseListing parent = parentForm as frmCourseListing;
             parent.CloseDetailPanel();
         }
-        public void btnAdd_Click(object sender, EventArgs e)
+        public void btnRoster_Click(object sender, EventArgs e)
         {
-            frmCourseListing parent = parentForm as frmCourseListing;
-            parent.btnAdd_Click();
+            frmStudentList studentList = new frmStudentList(dbc.GetCourseRoster(lblCode.Text));
+            studentList.Owner = null;
+            studentList.ShowDialog();
         }
     }
 }

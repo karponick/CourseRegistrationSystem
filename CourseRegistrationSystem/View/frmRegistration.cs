@@ -12,13 +12,15 @@ namespace CourseRegistrationSystem
 {
     public partial class frmRegistration : Form
     {
+        DatabaseControllerV2 dbc;
         private readonly Dictionary<string, Course> courseList = new Dictionary<string, Course>();
         private readonly Dictionary<string, Course> registeredCourses = new Dictionary<string, Course>();
         private double totalCredits;
-        public frmRegistration(Dictionary<string, Course> courseList)
+        public frmRegistration()
         {
             InitializeComponent();
-            this.courseList = courseList;
+            this.courseList = frmMain.CourseList;
+            this.dbc = frmMain.Dbc;
             totalCredits = 0;
         }
         public bool AddCourse(Course course)
@@ -31,6 +33,7 @@ namespace CourseRegistrationSystem
 
             //Console.WriteLine(string.Format("c: {0}, d: {1}, t: {2}, p: {3}",
             //    course.Code, course.DayString(), course.TimeString(), course.Professor));
+
 
             foreach (string code in registeredCourses.Keys) // iterate through registered courses
             {
@@ -71,7 +74,7 @@ namespace CourseRegistrationSystem
 
         private void btnView_Click(object sender, EventArgs e)
         {
-            frmCourseListing newCourseList = new frmCourseListing(courseList, true, this);
+            frmCourseListing newCourseList = new frmCourseListing(true, this);
             newCourseList.ShowDialog();
         }
 
@@ -87,13 +90,20 @@ namespace CourseRegistrationSystem
 
         private void btnSubmit_Click(object sender, EventArgs e)
         {
-            Registration newRegistration = new Registration
-                (
-                    txtID.Text, 
-                    txtName.Text, 
-                    cmbSemester.GetItemText(cmbSemester.SelectedItem), 
-                    registeredCourses
-                );
+            foreach (string code in registeredCourses.Keys)
+            {
+                Registration newRegistration = new Registration
+                    (
+                        txtID.Text,
+                        txtName.Text,
+                        cmbSemester.GetItemText(cmbSemester.SelectedItem),
+                        registeredCourses[code]
+                    );
+                dbc.AddRegistration(newRegistration);
+                dbc.ModifyCourse(registeredCourses[code].ToArray());
+                dbc.AddStudent(newRegistration.Student);
+            }
+            
         }
         private void lstCourses_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
