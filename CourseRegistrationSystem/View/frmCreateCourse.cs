@@ -263,5 +263,19 @@ namespace CourseRegistrationSystem
                 }
             }
         }
+
+        private void btnRemove_Click(object sender, EventArgs e)
+        {
+            if (comboPrereqs.SelectedIndex >= 0)
+            {
+                //string code = comboPrereqs.Items[comboPrereqs.SelectedIndex].ToString();
+                string code = comboPrereqs.GetItemText(comboPrereqs.SelectedItem);
+                if (prereqList.Contains(code))
+                {
+                    prereqList.Remove(code);
+                    lstPrereqs.Items.Remove(lstPrereqs.FindItemWithText(code));
+                }
+            }
+        }
     }
 }

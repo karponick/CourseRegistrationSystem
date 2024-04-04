@@ -103,7 +103,7 @@ namespace CourseRegistrationSystem
                 Text = "Roster",
                 Size = new Size(95, 20),
                 Location = new Point(115, 340),
-                BackColor = Color.LightCoral
+                BackColor = Color.Yellow
             };
             btnRoster.Click += btnRoster_Click;
 

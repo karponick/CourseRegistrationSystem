@@ -61,6 +61,7 @@ namespace CourseRegistrationSystem
             // Populate
             maxPages = currentCodeList.Count / 10;
 
+            int meetingTimeLabelHeightPositionModifier = 0;
             for (int i = 0; i < 10; i++)
             {
                 int index = i + page * 10;
@@ -74,9 +75,35 @@ namespace CourseRegistrationSystem
 
                 // Datagridview implementation
                 dgvCourses.Rows.Add(courseInfo);
+                
+                Panel meetingPanel = GetMeetingPanel(course, new Point(302, 40 * meetingTimeLabelHeightPositionModifier + 22));
+                dgvCourses.Controls.Add(meetingPanel);
+                meetingTimeLabelHeightPositionModifier++;
             }
+
+            lblShowing.Text = "Page " + (page + 1).ToString();
             CloseDetailPanel();
 
+        }
+        // Datagrid can access static list of all existing course MeetingTime panels
+        private MeetingPanel GetMeetingPanel(Course course, Point location)
+        {
+            MeetingPanel meetingPanel;
+            if (MeetingPanel.MeetingPanelList.ContainsKey(course.Code))
+            {
+                meetingPanel = MeetingPanel.MeetingPanelList[course.Code];
+                meetingPanel.Location = location;
+            }
+            else
+            {
+                meetingPanel = new MeetingPanel()
+                {
+                    Location = location
+                };
+                meetingPanel.Populate(course.Days, course.TimeString(), course.Code);
+            }
+            meetingPanel.Visible = true;
+            return meetingPanel;
         }
 
         public void CloseDetailPanel()
@@ -141,29 +168,6 @@ namespace CourseRegistrationSystem
                 CloseDetailPanel();
             }
         }
-        private void cmbFilter_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            page = 0;
-            btnPrev.Enabled = false;
-            ComboBox cmb = (ComboBox)sender;
-            // if filter selection is reset, display entire list
-            if (cmb.SelectedIndex == -1) { currentCodeList = defaultCodeList; }
-            // else display filtered list
-            else
-            { 
-                List<string> filteredCourseList = new List<string>();
-                foreach (string courseCode in defaultCodeList)
-                {
-                    Course course = courseList[courseCode];
-                    if (course.Department == (string)cmb.SelectedItem) { filteredCourseList.Add(courseCode); }
-                }
-                currentCodeList = filteredCourseList;
-            }
-            lblShowing.Text = "Page " + (page + 1).ToString();
-            UpdateDataGrid();
-            if (maxPages > 0) { btnNext.Enabled = true; }
-            else { btnNext.Enabled = false; }
-        }
         private void btnPrev_Click(object sender, EventArgs e)
         {
             page--;
@@ -172,10 +176,17 @@ namespace CourseRegistrationSystem
             lblShowing.Text = "Page " + (page + 1).ToString();
             UpdateDataGrid();
         }
-        private void btnFilter_Click(object sender, EventArgs e)
+        private void btnClear_Click(object sender, EventArgs e)
         {
-            // Clear filter selection
             cmbFilter.SelectedIndex = -1;
+            txtFilter.Clear();
+
+            page = 0;
+            btnPrev.Enabled = false;
+            currentCodeList = defaultCodeList;
+            UpdateDataGrid();
+            if (maxPages > 0) { btnNext.Enabled = true; }
+            else { btnNext.Enabled = false; }
         }
         private void btnNext_Click(object sender, EventArgs e)
         {
@@ -212,6 +223,44 @@ namespace CourseRegistrationSystem
             frmMain.CourseList.Remove(selectedCourse.Code);
             // Update display
             RefreshList();
+        }
+
+        private void btnFilter_Click(object sender, EventArgs e)
+        {
+            if (cmbFilter.SelectedIndex == -1) { return; }
+            // else display filtered list
+            else
+            {
+                page = 0;
+                btnPrev.Enabled = false;
+                List<string> filteredCourseList = new List<string>();
+                foreach (string courseCode in defaultCodeList)
+                {
+                    Course course = courseList[courseCode];
+                    switch ((string)cmbFilter.SelectedItem)
+                    {
+                        case "Code":
+                            if (course.Code == txtFilter.Text) { filteredCourseList.Add(courseCode); }
+                            break;
+                        case "Department":
+                            if (course.Department == txtFilter.Text) { filteredCourseList.Add(courseCode); }
+                            break;
+                        case "Title":
+                            if (course.Title == txtFilter.Text) { filteredCourseList.Add(courseCode); }
+                            break;
+                        case "Professor":
+                            if (course.Professor == txtFilter.Text) { filteredCourseList.Add(courseCode); }
+                            break;
+
+                    }
+                    
+                }
+                currentCodeList = filteredCourseList;
+            }
+            lblShowing.Text = "Page " + (page + 1).ToString();
+            UpdateDataGrid();
+            if (maxPages > 0) { btnNext.Enabled = true; }
+            else { btnNext.Enabled = false; }
         }
 
         private void btnAddtoReg_Click(object sender, EventArgs e)

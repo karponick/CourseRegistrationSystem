@@ -101,6 +101,7 @@ namespace CourseRegistrationSystem
                     );
                 dbc.AddRegistration(newRegistration);
                 dbc.ModifyCourse(registeredCourses[code].ToArray());
+                dbc.AddStudent(newRegistration.Student);
             }
             
         }

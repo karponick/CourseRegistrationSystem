@@ -36,7 +36,7 @@
             this.professor = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lblFilter = new System.Windows.Forms.Label();
             this.cmbFilter = new System.Windows.Forms.ComboBox();
-            this.btnFilter = new System.Windows.Forms.Button();
+            this.btnClear = new System.Windows.Forms.Button();
             this.btnPrev = new System.Windows.Forms.Button();
             this.btnNext = new System.Windows.Forms.Button();
             this.lblShowing = new System.Windows.Forms.Label();
@@ -44,7 +44,8 @@
             this.btnModify = new System.Windows.Forms.Button();
             this.btnAddtoReg = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
-            this.txtSearch = new System.Windows.Forms.TextBox();
+            this.txtFilter = new System.Windows.Forms.TextBox();
+            this.btnFilter = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCourses)).BeginInit();
             this.SuspendLayout();
             // 
@@ -141,18 +142,17 @@
             this.cmbFilter.Size = new System.Drawing.Size(123, 21);
             this.cmbFilter.TabIndex = 4;
             this.cmbFilter.TabStop = false;
-            this.cmbFilter.SelectedIndexChanged += new System.EventHandler(this.cmbFilter_SelectedIndexChanged);
             // 
-            // btnFilter
+            // btnClear
             // 
-            this.btnFilter.Location = new System.Drawing.Point(818, 81);
-            this.btnFilter.Name = "btnFilter";
-            this.btnFilter.Size = new System.Drawing.Size(123, 20);
-            this.btnFilter.TabIndex = 5;
-            this.btnFilter.TabStop = false;
-            this.btnFilter.Text = "Clear Filter";
-            this.btnFilter.UseVisualStyleBackColor = true;
-            this.btnFilter.Click += new System.EventHandler(this.btnFilter_Click);
+            this.btnClear.Location = new System.Drawing.Point(818, 107);
+            this.btnClear.Name = "btnClear";
+            this.btnClear.Size = new System.Drawing.Size(123, 20);
+            this.btnClear.TabIndex = 5;
+            this.btnClear.TabStop = false;
+            this.btnClear.Text = "Clear Filter";
+            this.btnClear.UseVisualStyleBackColor = true;
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
             // btnPrev
             // 
@@ -235,20 +235,32 @@
             this.btnDelete.Visible = false;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
-            // txtSearch
+            // txtFilter
             // 
-            this.txtSearch.Location = new System.Drawing.Point(818, 55);
-            this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(123, 20);
-            this.txtSearch.TabIndex = 13;
-            this.txtSearch.TabStop = false;
+            this.txtFilter.Location = new System.Drawing.Point(818, 55);
+            this.txtFilter.Name = "txtFilter";
+            this.txtFilter.Size = new System.Drawing.Size(123, 20);
+            this.txtFilter.TabIndex = 13;
+            this.txtFilter.TabStop = false;
+            // 
+            // btnFilter
+            // 
+            this.btnFilter.Location = new System.Drawing.Point(818, 81);
+            this.btnFilter.Name = "btnFilter";
+            this.btnFilter.Size = new System.Drawing.Size(123, 20);
+            this.btnFilter.TabIndex = 14;
+            this.btnFilter.TabStop = false;
+            this.btnFilter.Text = "Filter";
+            this.btnFilter.UseVisualStyleBackColor = true;
+            this.btnFilter.Click += new System.EventHandler(this.btnFilter_Click);
             // 
             // frmCourseListing
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(949, 441);
-            this.Controls.Add(this.txtSearch);
+            this.Controls.Add(this.btnFilter);
+            this.Controls.Add(this.txtFilter);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.btnAddtoReg);
             this.Controls.Add(this.btnModify);
@@ -256,7 +268,7 @@
             this.Controls.Add(this.lblShowing);
             this.Controls.Add(this.btnNext);
             this.Controls.Add(this.btnPrev);
-            this.Controls.Add(this.btnFilter);
+            this.Controls.Add(this.btnClear);
             this.Controls.Add(this.cmbFilter);
             this.Controls.Add(this.lblFilter);
             this.Controls.Add(this.dgvCourses);
@@ -281,7 +293,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn professor;
         private System.Windows.Forms.Label lblFilter;
         private System.Windows.Forms.ComboBox cmbFilter;
-        private System.Windows.Forms.Button btnFilter;
+        private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.Button btnPrev;
         private System.Windows.Forms.Button btnNext;
         private System.Windows.Forms.Label lblShowing;
@@ -289,6 +301,7 @@
         private System.Windows.Forms.Button btnModify;
         private System.Windows.Forms.Button btnAddtoReg;
         private System.Windows.Forms.Button btnDelete;
-        private System.Windows.Forms.TextBox txtSearch;
+        private System.Windows.Forms.TextBox txtFilter;
+        private System.Windows.Forms.Button btnFilter;
     }
 }

@@ -182,5 +182,17 @@ namespace CourseRegistrationSystem
             catch (OleDbException ex) { Console.WriteLine(ex.Message); }
             finally { myConnection.Close(); }
         }
+
+        public void AddStudent(Student student)
+        {
+            try
+            {
+                myConnection.Open();
+                myCommand.CommandText = "INSERT INTO Student VALUES ('" + student.Id + "','" + student.Name + "')";
+                myCommand.ExecuteNonQuery();
+            }
+            catch (OleDbException ex) { Console.WriteLine(ex.Message); }
+            finally { myConnection.Close(); }
+        }
     }
 }

@@ -68,6 +68,7 @@
             this.btnAdd = new System.Windows.Forms.Button();
             this.lstPrereqs = new System.Windows.Forms.ListView();
             this.btnRegistration = new System.Windows.Forms.Button();
+            this.btnRemove = new System.Windows.Forms.Button();
             this.flowDays.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picProf)).BeginInit();
             this.SuspendLayout();
@@ -116,7 +117,7 @@
             this.comboPrereqs.FormattingEnabled = true;
             this.comboPrereqs.Location = new System.Drawing.Point(83, 249);
             this.comboPrereqs.Name = "comboPrereqs";
-            this.comboPrereqs.Size = new System.Drawing.Size(252, 21);
+            this.comboPrereqs.Size = new System.Drawing.Size(177, 21);
             this.comboPrereqs.TabIndex = 35;
             this.comboPrereqs.TabStop = false;
             // 
@@ -439,9 +440,9 @@
             // 
             // btnAdd
             // 
-            this.btnAdd.Location = new System.Drawing.Point(341, 247);
+            this.btnAdd.Location = new System.Drawing.Point(266, 249);
             this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(36, 23);
+            this.btnAdd.Size = new System.Drawing.Size(55, 23);
             this.btnAdd.TabIndex = 33;
             this.btnAdd.TabStop = false;
             this.btnAdd.Text = "Add";
@@ -472,11 +473,23 @@
             this.btnRegistration.Visible = false;
             this.btnRegistration.Click += new System.EventHandler(this.btnRegistration_Click);
             // 
+            // btnRemove
+            // 
+            this.btnRemove.Location = new System.Drawing.Point(322, 249);
+            this.btnRemove.Name = "btnRemove";
+            this.btnRemove.Size = new System.Drawing.Size(55, 23);
+            this.btnRemove.TabIndex = 36;
+            this.btnRemove.TabStop = false;
+            this.btnRemove.Text = "Remove";
+            this.btnRemove.UseVisualStyleBackColor = true;
+            this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
+            // 
             // frmCreateCourse
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(572, 478);
+            this.Controls.Add(this.btnRemove);
             this.Controls.Add(this.btnRegistration);
             this.Controls.Add(this.lstPrereqs);
             this.Controls.Add(this.btnAdd);
@@ -567,6 +580,7 @@
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.ListView lstPrereqs;
         private System.Windows.Forms.Button btnRegistration;
+        private System.Windows.Forms.Button btnRemove;
     }
 }
 
